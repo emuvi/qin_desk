@@ -1,8 +1,8 @@
 import { QinArms, QinBounds, QinSoul } from "qin_soul";
-import { QinJobber } from "./qin-jobber";
+import { QinFrame } from "./qin-frame";
 
-export class QinJobberPopup {
-    private _jobber: QinJobber;
+export class QinFramePopup {
+    private _qinFrame: QinFrame;
     private _divContent: HTMLDivElement;
     private _divMain: HTMLDivElement = document.createElement("div");
 
@@ -14,8 +14,8 @@ export class QinJobberPopup {
     private _onShow: Array<Function> = null;
     private _onClose: Array<Function> = null;
 
-    public constructor(jobber: QinJobber, divContent: HTMLDivElement) {
-        this._jobber = jobber;
+    public constructor(jobber: QinFrame, divContent: HTMLDivElement) {
+        this._qinFrame = jobber;
         this._divContent = divContent;
         this.initMain();
     }
@@ -32,7 +32,7 @@ export class QinJobberPopup {
 
     private onFocusOutClose(ev: FocusEvent) {
         setTimeout(() => {
-            if (!this._divMain.contains(this._jobber.getIFrameDoc().activeElement)) {
+            if (!this._divMain.contains(this._qinFrame.getIFrameDoc().activeElement)) {
                 this.close();
             }
         }, 360);
@@ -73,18 +73,18 @@ export class QinJobberPopup {
 
     public show() {
         this.close();
-        const iframeBody = this._jobber.getIFrameDoc().body;
+        const iframeBody = this._qinFrame.getIFrameDoc().body;
         iframeBody.appendChild(this._divMain);
         this._posX = 18;
         this._posY = 18;
-        this._maxWidth = this._jobber.getIFrame().clientWidth - (this._posY + 9);
-        this._maxHeight = this._jobber.getIFrame().clientHeight - (this._posY + 9);
+        this._maxWidth = this._qinFrame.getIFrame().clientWidth - (this._posY + 9);
+        this._maxHeight = this._qinFrame.getIFrame().clientHeight - (this._posY + 9);
         this._divMain.style.left = this._posX + "px";
         this._divMain.style.top = this._posY + "px";
         this._divMain.style.maxWidth = this._maxWidth + "px";
         this._divMain.style.maxHeight = this._maxHeight + "px";
-        this._posX = this._jobber.getIFrame().clientWidth / 2 - this._divMain.clientWidth / 2;
-        this._posY = this._jobber.getIFrame().clientHeight / 2 - this._divMain.clientHeight / 2;
+        this._posX = this._qinFrame.getIFrame().clientWidth / 2 - this._divMain.clientWidth / 2;
+        this._posY = this._qinFrame.getIFrame().clientHeight / 2 - this._divMain.clientHeight / 2;
         this._divMain.style.left = this._posX + "px";
         this._divMain.style.top = this._posY + "px";
         this.didShow();
@@ -92,12 +92,12 @@ export class QinJobberPopup {
 
     public showOnParent(parent: HTMLElement) {
         this.close();
-        this._jobber.getIFrameDoc().body.appendChild(this._divMain);
+        this._qinFrame.getIFrameDoc().body.appendChild(this._divMain);
         let bounds = parent.getBoundingClientRect();
         this._posX = bounds.left;
         this._posY = bounds.top + bounds.height;
-        this._maxWidth = this._jobber.getIFrame().clientWidth - (this._posX + 9);
-        this._maxHeight = this._jobber.getIFrame().clientHeight - (this._posY + 9);
+        this._maxWidth = this._qinFrame.getIFrame().clientWidth - (this._posX + 9);
+        this._maxHeight = this._qinFrame.getIFrame().clientHeight - (this._posY + 9);
         this._divMain.style.left = this._posX + "px";
         this._divMain.style.top = this._posY + "px";
         this._divMain.style.maxWidth = this._maxWidth + "px";
@@ -107,7 +107,7 @@ export class QinJobberPopup {
 
     public showOnBounds(bounds: QinBounds) {
         this.close();
-        this._jobber.getIFrameDoc().body.appendChild(this._divMain);
+        this._qinFrame.getIFrameDoc().body.appendChild(this._divMain);
         this._posX = bounds.posX;
         this._posY = bounds.posY;
         this._maxWidth = bounds.width;
@@ -127,9 +127,9 @@ export class QinJobberPopup {
     }
 
     public close() {
-        if (this._jobber.getIFrameDoc().body.contains(this._divMain)) {
+        if (this._qinFrame.getIFrameDoc().body.contains(this._divMain)) {
             this._divMain.focus();
-            this._jobber.getIFrameDoc().body.removeChild(this._divMain);
+            this._qinFrame.getIFrameDoc().body.removeChild(this._divMain);
             if (this._onClose) {
                 this._onClose.forEach((func) => func());
             }
@@ -137,15 +137,15 @@ export class QinJobberPopup {
     }
 
     public toggle() {
-        if (this._jobber.getIFrameDoc().body.contains(this._divMain)) {
+        if (this._qinFrame.getIFrameDoc().body.contains(this._divMain)) {
             this.close();
         } else {
             this.show();
         }
     }
 
-    public get jobber(): QinJobber {
-        return this._jobber;
+    public get jobber(): QinFrame {
+        return this._qinFrame;
     }
 
     public get divContent(): HTMLDivElement {

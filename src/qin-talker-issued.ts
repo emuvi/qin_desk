@@ -1,15 +1,15 @@
 import { QinTalker } from "./qin-talker";
 
 export class QinTalkerIssued {
-    private readonly _talker: QinTalker;
+    private readonly _qinTalker: QinTalker;
 
-    public constructor(talker: QinTalker) {
-        this._talker = talker;
+    public constructor(qinTalker: QinTalker) {
+        this._qinTalker = qinTalker;
     }
 
     public ask(question: IssuedQuestion): Promise<IssuedAnswer> {
         return new Promise<IssuedAnswer>((resolve, reject) => {
-            this._talker
+            this._qinTalker
                 .post("/issued", question)
                 .then((res) => resolve(res.data as IssuedAnswer))
                 .catch((err) => reject(err));

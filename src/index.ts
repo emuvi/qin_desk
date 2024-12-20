@@ -1,7 +1,7 @@
 import { QinSoul } from "qin_soul";
-import { QinChief } from "./qin-chief";
+import { QinWindow } from "./qin-window";
 
-const chief = new QinChief();
+const chief = new QinWindow();
 chief.putInDocument();
 
 window.onload = () => {

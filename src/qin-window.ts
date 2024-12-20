@@ -1,15 +1,15 @@
 import { QinArms, QinHead, QinSkin } from "qin_soul";
 import { QinDesk, QinDeskSet } from "./qin-desk";
-import { QinJobber } from "./qin-jobber";
+import { QinFrame } from "./qin-frame";
 import { QinOurs } from "./qin-ours";
 import { QinTalker } from "./qin-talker";
 import { Qinpel } from "./qinpel";
 
-export class QinChief {
+export class QinWindow {
     private _divBody = document.createElement("div");
     private _divMenu = document.createElement("div");
     private _imgMenu = document.createElement("img");
-    private _jobbers: QinJobber[] = [];
+    private _jobbers: QinFrame[] = [];
     private _framesTopZ = 1;
 
     private _serverLang = "";
@@ -18,7 +18,7 @@ export class QinChief {
 
     private _talker = new QinTalker(this);
 
-    private _menuJobbed: QinJobber = null;
+    private _menuJobbed: QinFrame = null;
 
     public constructor() {
         this.initBody();
@@ -118,15 +118,15 @@ export class QinChief {
         return new QinDesk(qinpel, options);
     }
 
-    public newJobber(title: string, appNameOrAddress: string, options?: any): QinJobber {
-        let result = new QinJobber(this, title, appNameOrAddress, options);
+    public newJobber(title: string, appNameOrAddress: string, options?: any): QinFrame {
+        let result = new QinFrame(this, title, appNameOrAddress, options);
         result.install();
         this._jobbers.push(result);
         this.loadTranslations(result.appName);
         return result;
     }
 
-    public getJobber(fromTitle: string): QinJobber {
+    public getJobber(fromTitle: string): QinFrame {
         for (const jobber of this._jobbers) {
             if (jobber.title === fromTitle) {
                 return jobber;
@@ -135,7 +135,7 @@ export class QinChief {
         return null;
     }
 
-    public getJobberFromID(fromID: string): QinJobber {
+    public getJobberFromID(fromID: string): QinFrame {
         for (const jobber of this._jobbers) {
             if (jobber.getMainID() === fromID) {
                 return jobber;
@@ -153,14 +153,14 @@ export class QinChief {
         return -1;
     }
 
-    public delJobber(jobber: QinJobber) {
+    public delJobber(jobber: QinFrame) {
         const index = this._jobbers.indexOf(jobber);
         if (index > -1) {
             this._jobbers.splice(index, 1);
         }
     }
 
-    public hasJobber(jobber: QinJobber) {
+    public hasJobber(jobber: QinFrame) {
         const index = this._jobbers.indexOf(jobber);
         return index > -1;
     }

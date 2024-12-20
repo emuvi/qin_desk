@@ -1,22 +1,22 @@
-import { QinChief } from "./qin-chief";
-import { QinJobber } from "./qin-jobber";
+import { QinFrame } from "./qin-frame";
 import { QinOurs } from "./qin-ours";
 import { QinTalker } from "./qin-talker";
+import { QinWindow } from "./qin-window";
 
 export class Qinpel {
-    private _chief: QinChief;
-    private _jobbed: QinJobber;
+    private _chief: QinWindow;
+    private _jobbed: QinFrame;
 
-    public constructor(chief: QinChief, jobbed: QinJobber) {
+    public constructor(chief: QinWindow, jobbed: QinFrame) {
         this._chief = chief;
         this._jobbed = jobbed;
     }
 
-    public get chief(): QinChief {
+    public get chief(): QinWindow {
         return this._chief;
     }
 
-    public get jobbed(): QinJobber {
+    public get jobbed(): QinFrame {
         return this._jobbed;
     }
 

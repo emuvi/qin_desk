@@ -1,24 +1,24 @@
 import {
-  QinArms,
-  QinBody,
-  QinBounds,
-  QinGrandeur,
-  QinHead,
-  QinLegs,
-  QinSkin,
-  QinSoul,
-  QinWaiter,
+    QinArms,
+    QinBody,
+    QinBounds,
+    QinGrandeur,
+    QinHead,
+    QinLegs,
+    QinSkin,
+    QinSoul,
+    QinWaiter,
 } from "qin_soul";
-import { QinChief } from "./qin-chief";
-import { QinJobberDialog } from "./qin-jobber-dialog";
-import { QinJobberPopup } from "./qin-jobber-popup";
+import { QinFrameDialog } from "./qin-frame-dialog";
+import { QinFramePopup } from "./qin-frame-popup";
+import { QinWindow } from "./qin-window";
 import { Qinpel } from "./qinpel";
 
-export { QinJobberDialog } from "./qin-jobber-dialog";
-export { QinJobberPopup } from "./qin-jobber-popup";
+export { QinFrameDialog as QinJobberDialog } from "./qin-frame-dialog";
+export { QinFramePopup as QinJobberPopup } from "./qin-frame-popup";
 
-export class QinJobber {
-    private _chief: QinChief;
+export class QinFrame {
+    private _qinWindow: QinWindow;
     private _title: string;
     private _appNameOrAddress: string;
     private _appName: string;
@@ -51,8 +51,13 @@ export class QinJobber {
     private _onFocusGain: Array<Function> = null;
     private _onFocusLost: Array<Function> = null;
 
-    public constructor(chief: QinChief, title: string, appNameOrAddress: string, options?: any) {
-        this._chief = chief;
+    public constructor(
+        qinWindow: QinWindow,
+        title: string,
+        appNameOrAddress: string,
+        options?: any
+    ) {
+        this._qinWindow = qinWindow;
         this._title = this.initFrameTitle(title);
         this._appNameOrAddress = appNameOrAddress;
         this._options = options ? options : {};
@@ -69,7 +74,7 @@ export class QinJobber {
         var result = title;
         var attempt = 1;
         while (true) {
-            if (this._chief.getJobber(result) != null) {
+            if (this._qinWindow.getJobber(result) != null) {
                 result = title + " (" + ++attempt + ")";
             } else {
                 break;
@@ -99,7 +104,7 @@ export class QinJobber {
         };
         let windowSizeStyle = QinSoul.skin.getWindowSizeStyle();
         const frameStyleID = this.getFrameWindowStyleID(windowSizeStyle);
-        const frameBoundsSaved = this._chief.loadConfig(frameStyleID);
+        const frameBoundsSaved = this._qinWindow.loadConfig(frameStyleID);
         if (frameBoundsSaved) {
             let parts = frameBoundsSaved.split(",");
             result.posX = Number(parts[0]);
@@ -129,7 +134,7 @@ export class QinJobber {
 
     private initDivHead() {
         styles.applyOnDivHead(this._divHead);
-        this._imgMenu.src = "./assets/jobber-menu.png";
+        this._imgMenu.src = "./assets/frame-menu.png";
         styles.applyOnDivEdgeIcon(this._imgMenu);
         this._imgMenu.alt = "o";
         QinArms.addActionMain(this._imgMenu, () => this.showChiefMenu());
@@ -137,17 +142,17 @@ export class QinJobber {
         styles.applyOnDivHeadTitle(this._divTitle);
         this._divTitle.innerText = this._title;
         this._divHead.appendChild(this._divTitle);
-        this._imgMinimize.src = "./assets/jobber-minimize.png";
+        this._imgMinimize.src = "./assets/frame-minimize.png";
         styles.applyOnDivEdgeIcon(this._imgMinimize);
         this._imgMinimize.alt = "-";
         QinArms.addActionMain(this._imgMinimize, () => this.minimize());
         this._divHead.appendChild(this._imgMinimize);
-        this._imgMaximize.src = "./assets/jobber-maximize.png";
+        this._imgMaximize.src = "./assets/frame-maximize.png";
         styles.applyOnDivEdgeIcon(this._imgMaximize);
         this._imgMaximize.alt = "+";
         QinArms.addActionMain(this._imgMaximize, () => this.maximize());
         this._divHead.appendChild(this._imgMaximize);
-        this._imgClose.src = "./assets/jobber-close.png";
+        this._imgClose.src = "./assets/frame-close.png";
         styles.applyOnDivEdgeIcon(this._imgClose);
         this._imgClose.alt = "x";
         QinArms.addActionMain(this._imgClose, () => this.close());
@@ -190,7 +195,7 @@ export class QinJobber {
             if (document.activeElement == this._iframeBody) {
                 if (!isFocused) {
                     isFocused = true;
-                    this._chief.showElement(this._divFrame);
+                    this._qinWindow.showElement(this._divFrame);
                     if (this._onFocusGain) {
                         for (const toCall of this._onFocusGain) {
                             toCall();
@@ -207,7 +212,7 @@ export class QinJobber {
                     }
                 }
             }
-            if (this._chief.hasChild(this._divFrame)) {
+            if (this._qinWindow.hasChild(this._divFrame)) {
                 window.setTimeout(checkFocus, 1000);
             }
         };
@@ -223,7 +228,7 @@ export class QinJobber {
 
     private initDivFoot() {
         styles.applyOnDivFoot(this._divFoot);
-        this._footStatusType.src = "./assets/jobber-status-info.png";
+        this._footStatusType.src = "./assets/frame-status-info.png";
         styles.applyOnDivEdgeIcon(this._footStatusType);
         QinSoul.arms.addAction(this._footStatusType, (ev) => {
             if (ev.isMain) {
@@ -234,7 +239,7 @@ export class QinJobber {
         styles.applyOnStatusText(this._footStatusText);
         this._footStatusText.innerText = "StatusBar";
         this._divFoot.appendChild(this._footStatusText);
-        this._footResize.src = "./assets/jobber-resize.png";
+        this._footResize.src = "./assets/frame-resize.png";
         styles.applyOnDivEdgeIcon(this._footResize);
         this._footResize.alt = "/";
         this._divFoot.appendChild(this._footResize);
@@ -274,8 +279,8 @@ export class QinJobber {
         }
     }
 
-    public get chief(): QinChief {
-        return this._chief;
+    public get chief(): QinWindow {
+        return this._qinWindow;
     }
 
     public get title(): string {
@@ -328,8 +333,8 @@ export class QinJobber {
 
     public install() {
         //@ts-ignore
-        this._iframeBody.qinpel = new Qinpel(this._chief, this);
-        this._chief.addChild(this._divFrame);
+        this._iframeBody.qinpel = new Qinpel(this._qinWindow, this);
+        this._qinWindow.addChild(this._divFrame);
         this.initFocusVerifier();
         this.show();
     }
@@ -347,7 +352,7 @@ export class QinJobber {
     public statusError(error: any, origin: string) {
         let message = QinHead.getErrorMessage(error, origin);
         this._footStatusText.innerText = this.getDisplayStatusMessage(message);
-        this._footStatusType.src = "./assets/jobber-status-error.png";
+        this._footStatusType.src = "./assets/frame-status-error.png";
         let divError = document.createElement("div");
         divError.innerText = message;
         styles.applyOnStatusBodyItem(divError);
@@ -376,16 +381,16 @@ export class QinJobber {
             parseInt(this._divFrame.style.width, 10) +
             "," +
             parseInt(this._divFrame.style.height, 10);
-        this._chief.saveConfig(frameStyleID, frameBounds);
+        this._qinWindow.saveConfig(frameStyleID, frameBounds);
     }
 
     public show() {
-        this._chief.showElement(this._divFrame);
+        this._qinWindow.showElement(this._divFrame);
         this._iframeBody.focus();
     }
 
     public showChiefMenu() {
-        this._chief.showMenu();
+        this._qinWindow.showMenu();
     }
 
     public minimize() {
@@ -407,7 +412,7 @@ export class QinJobber {
             this._divFrame.style.height = this._divHead.clientHeight + "px";
             this._minimized = true;
         }
-        this._chief.showElement(this._divFrame);
+        this._qinWindow.showElement(this._divFrame);
     }
 
     public maximize() {
@@ -421,11 +426,11 @@ export class QinJobber {
             }
             this._lastWidth = parseInt(this._divFrame.style.width, 10);
             this._lastHeight = parseInt(this._divFrame.style.height, 10);
-            this._divFrame.style.width = this._chief.getBodyWidth() - 4 + "px";
-            this._divFrame.style.height = this._chief.getBodyHeight() - 4 + "px";
+            this._divFrame.style.width = this._qinWindow.getBodyWidth() - 4 + "px";
+            this._divFrame.style.height = this._qinWindow.getBodyHeight() - 4 + "px";
             this._maximized = true;
         }
-        this._chief.showElement(this._divFrame);
+        this._qinWindow.showElement(this._divFrame);
     }
 
     public getIFrame(): HTMLIFrameElement {
@@ -436,12 +441,12 @@ export class QinJobber {
         return this._iframeBody.contentWindow.document;
     }
 
-    public newDialog(title: string, divContent: HTMLDivElement): QinJobberDialog {
-        return new QinJobberDialog(this, title, divContent);
+    public newDialog(title: string, divContent: HTMLDivElement): QinFrameDialog {
+        return new QinFrameDialog(this, title, divContent);
     }
 
-    public newPopup(divContent: HTMLDivElement): QinJobberPopup {
-        return new QinJobberPopup(this, divContent);
+    public newPopup(divContent: HTMLDivElement): QinFramePopup {
+        return new QinFramePopup(this, divContent);
     }
 
     public showAlert(message: string) {
@@ -516,7 +521,7 @@ export class QinJobber {
         divIcon.style.justifyContent = "center";
         divIcon.style.marginBottom = "6px";
         const icon = document.createElement("img");
-        icon.src = "/pub/qin_desk/assets/jobber-status-info.png";
+        icon.src = "/pub/qin_desk/assets/frame-status-info.png";
         icon.style.width = "24px";
         icon.style.height = "24px";
         divIcon.appendChild(icon);
@@ -549,7 +554,7 @@ export class QinJobber {
         divIcon.style.justifyContent = "center";
         divIcon.style.marginBottom = "6px";
         const icon = document.createElement("img");
-        icon.src = "/pub/qin_desk/assets/jobber-status-error.png";
+        icon.src = "/pub/qin_desk/assets/frame-status-error.png";
         icon.style.width = "24px";
         icon.style.height = "24px";
         divIcon.appendChild(icon);
@@ -582,8 +587,8 @@ export class QinJobber {
 
     public close() {
         this.saveFrameBounds();
-        this._chief.delChild(this._divFrame);
-        this._chief.delJobber(this);
+        this._qinWindow.delChild(this._divFrame);
+        this._qinWindow.delJobber(this);
         this._wasClosed = true;
     }
 
