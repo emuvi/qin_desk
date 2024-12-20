@@ -1,19 +1,10 @@
-import { QinTalker } from "./qin-talker";
+import { IssuedAnswer, IssuedQuestion, QinTalkerUtils } from "./qin-talker-utils";
 
-export class QinTalkerIssued {
-    private readonly _qinTalker: QinTalker;
+export class QinTalkerUtilsIssued {
+    private readonly _qinTalkerUtils: QinTalkerUtils;
 
-    public constructor(qinTalker: QinTalker) {
-        this._qinTalker = qinTalker;
-    }
-
-    public ask(question: IssuedQuestion): Promise<IssuedAnswer> {
-        return new Promise<IssuedAnswer>((resolve, reject) => {
-            this._qinTalker
-                .post("/issued", question)
-                .then((res) => resolve(res.data as IssuedAnswer))
-                .catch((err) => reject(err));
-        });
+    public constructor(qinTalkerUtils: QinTalkerUtils) {
+        this._qinTalkerUtils = qinTalkerUtils;
     }
 
     public askWhenDone(question: IssuedQuestion): Promise<IssuedAnswer> {
@@ -23,10 +14,12 @@ export class QinTalkerIssued {
                 askIsDone: true,
             } as IssuedQuestion;
             const askIsDone = () => {
-                this.ask(questionIsDone)
+                this._qinTalkerUtils
+                    .askIssued(questionIsDone)
                     .then((res) => {
                         if (res.isDone) {
-                            this.ask(question)
+                            this._qinTalkerUtils
+                                .askIssued(question)
                                 .then((res) => resolve(res))
                                 .catch((err) => reject(err));
                         } else {
@@ -41,7 +34,8 @@ export class QinTalkerIssued {
 
     public askConstantly(question: IssuedQuestion, process: AskConstantly) {
         const ask = () => {
-            this.ask(question)
+            this._qinTalkerUtils
+                .askIssued(question)
                 .then((res) => {
                     if (process.onReceive) {
                         process.onReceive(res);
@@ -91,7 +85,8 @@ export class QinTalkerIssued {
                     askOutLinesSize: true,
                 };
             }
-            this.ask(question)
+            this._qinTalkerUtils
+                .askIssued(question)
                 .then((res) => {
                     let finished = false;
                     let got = 0;
@@ -125,41 +120,6 @@ export class QinTalkerIssued {
     }
 }
 
-export type IssuedToken = string;
-
-export type IssuedQuestion = {
-    token: string;
-    askCreatedAt?: boolean;
-    askOutLines?: boolean;
-    askOutLinesFrom?: number;
-    askOutLinesUntil?: number;
-    askOutLinesSize?: boolean;
-    askErrLines?: boolean;
-    askErrLinesFrom?: number;
-    askErrLinesUntil?: number;
-    askErrLinesSize?: boolean;
-    askResultCode?: boolean;
-    askIsDone?: boolean;
-    askHasOut?: boolean;
-    askHasErr?: boolean;
-    askFinishedAt?: boolean;
-};
-
-export type IssuedAnswer = {
-    createdAt?: number;
-    outLines?: string;
-    outLinesFrom?: string[];
-    outLinesSize?: number;
-    errLines?: string;
-    errLinesFrom?: string[];
-    errLinesSize?: number;
-    resultCode?: number;
-    isDone?: boolean;
-    hasOut?: boolean;
-    hasErr?: boolean;
-    finishedAt?: number;
-};
-
 export type AskConstantly = {
     stop?: boolean;
     onReceive?: (received: IssuedAnswer) => void;
@@ -167,7 +127,7 @@ export type AskConstantly = {
 };
 
 export type AskStream = {
-    token: IssuedToken;
+    token: string;
     chunks: number;
     onReceive?: (line: string) => void;
     onFinish?: (size: number) => void;

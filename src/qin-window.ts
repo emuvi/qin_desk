@@ -232,18 +232,10 @@ export class QinWindow {
 
     public async needToEnter(): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
-            this.talk
-                .get("/logged")
-                .then((response) => {
-                    if (response.status === 200) {
-                        if (response.data === "<!-- No user is logged. -->") {
-                            resolve(true);
-                        } else {
-                            resolve(false);
-                        }
-                    } else {
-                        resolve(true);
-                    }
+            this.talk.utils
+                .isLogged()
+                .then((res) => {
+                    resolve(!res);
                 })
                 .catch((_) => {
                     resolve(true);
@@ -284,11 +276,11 @@ export class QinWindow {
     public tryEnter(name: string, pass: string): Promise<string> {
         pass = QinOurs.crypto.sha1(pass);
         return new Promise((resolve, reject) => {
-            this._talker
-                .post("/enter", { name, pass })
+            this.talk.utils
+                .tryEnter({ name, pass })
                 .then((res) => {
-                    this._userLang = res.data.lang;
-                    this._userToken = res.data.token;
+                    this._userLang = res.lang;
+                    this._userToken = res.token;
                     this.loadTranslations("qin_desk");
                     resolve(this._userLang);
                 })
