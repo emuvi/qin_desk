@@ -4,31 +4,31 @@ import { QinTalker } from "./qin-talker";
 import { QinWindow } from "./qin-window";
 
 export class Qinpel {
-    private _chief: QinWindow;
-    private _jobbed: QinFrame;
+    private _qinWindow: QinWindow;
+    private _qinFrame: QinFrame;
 
-    public constructor(chief: QinWindow, jobbed: QinFrame) {
-        this._chief = chief;
-        this._jobbed = jobbed;
+    public constructor(qinWindow: QinWindow, qinFrame: QinFrame) {
+        this._qinWindow = qinWindow;
+        this._qinFrame = qinFrame;
     }
 
-    public get chief(): QinWindow {
-        return this._chief;
+    public get qinWindow(): QinWindow {
+        return this._qinWindow;
     }
 
-    public get jobbed(): QinFrame {
-        return this._jobbed;
+    public get qinFrame(): QinFrame {
+        return this._qinFrame;
     }
 
     public get talk(): QinTalker {
-        return this._chief.talk;
+        return this._qinWindow.talk;
     }
 
-    public get our() {
+    public get ours() {
         return QinOurs;
     }
 
     public tr(of: string): string {
-        return this.our.tr(of);
+        return this.ours.tr(of);
     }
 }

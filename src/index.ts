@@ -1,8 +1,8 @@
 import { QinSoul } from "qin_soul";
 import { QinWindow } from "./qin-window";
 
-const chief = new QinWindow();
-chief.putInDocument();
+const qinWindow = new QinWindow();
+qinWindow.putInDocument();
 
 window.onload = () => {
     QinSoul.head.stopBrowserShortcuts(window);

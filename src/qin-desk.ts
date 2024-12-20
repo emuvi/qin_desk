@@ -39,9 +39,9 @@ export class QinDesk {
             })
             .catch((err) => {
                 if (err.response?.status === 403) {
-                    this.qinpel.chief.exit();
+                    this.qinpel.qinWindow.exit();
                 }
-                this.qinpel.jobbed.statusError(err, "{qin_desk}(ErrCode-000002)");
+                this.qinpel.qinFrame.statusError(err, "{qin_desk}(ErrCode-000002)");
             });
     }
 
@@ -64,13 +64,13 @@ export class QinDesk {
                         this.divApps,
                         this.newMenu(title, icon, (ev) => {
                             if (ev.isMain) {
-                                this.qinpel.chief.newJobber(title, name);
+                                this.qinpel.qinWindow.newJobber(title, name);
                             }
                         })
                     );
                 })
                 .catch((err) => {
-                    this.qinpel.jobbed.statusError(err, "{qin_desk}(ErrCode-000001)");
+                    this.qinpel.qinFrame.statusError(err, "{qin_desk}(ErrCode-000001)");
                 });
         }
     }
@@ -81,7 +81,7 @@ export class QinDesk {
         styles.applyOnDivLine(this.divCfgs);
         if (shouldAdd(this.options.addsCfgs, { title: "QinBases" })) {
             this.qinpel.talk.get("/list/base").then((res) => {
-                let bases = this.qinpel.our.soul.body.getTextLines(res.data);
+                let bases = this.qinpel.ours.soul.body.getTextLines(res.data);
                 this.addQinBases(bases);
             });
         }
@@ -91,13 +91,13 @@ export class QinDesk {
         if (!bases || bases.length === 0) {
             return;
         }
-        let actual = this.qinpel.chief.loadConfig(QinNames.QinBaseSelected);
+        let actual = this.qinpel.qinWindow.loadConfig(QinNames.QinBaseSelected);
         if (bases.indexOf(actual) == -1) {
             actual = null;
         }
         if (!actual) {
             actual = bases[0];
-            this.qinpel.chief.saveConfig(QinNames.QinBaseSelected, actual);
+            this.qinpel.qinWindow.saveConfig(QinNames.QinBaseSelected, actual);
         }
         if (bases.length === 1) {
             return;
@@ -116,7 +116,7 @@ export class QinDesk {
         this.addMenu(
             this.divCfgs,
             this.newCombo(QinNames.QinBases, items, (base) => {
-                this.qinpel.chief.saveConfig(QinNames.QinBaseSelected, base);
+                this.qinpel.qinWindow.saveConfig(QinNames.QinBaseSelected, base);
             })
         );
     }

@@ -3,7 +3,7 @@ import { QinNames } from "./qin-names";
 import { Qinpel } from "./qinpel";
 const qinpel = (window.frameElement as any).qinpel as Qinpel;
 
-qinpel.chief.needToEnter().then((need) => {
+qinpel.qinWindow.needToEnter().then((need) => {
     if (need) {
         (window.frameElement as HTMLIFrameElement).src = "./login.html";
     } else {

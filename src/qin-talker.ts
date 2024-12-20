@@ -7,17 +7,17 @@ import { QinWindow } from "./qin-window";
 
 export class QinTalker {
     private readonly _qinWindow: QinWindow;
-    private readonly _cmd: QinTalkerCmd;
-    private readonly _giz: QinTalkerGiz;
-    private readonly _issued: QinTalkerIssued;
-    private readonly _param: QinTalkerParam;
+    private readonly _qinTalkerCmd: QinTalkerCmd;
+    private readonly _qinTalkerGiz: QinTalkerGiz;
+    private readonly _qinTalkerIssued: QinTalkerIssued;
+    private readonly _qinTalkerParam: QinTalkerParam;
 
     public constructor(qinWindow: QinWindow) {
         this._qinWindow = qinWindow;
-        this._cmd = new QinTalkerCmd(this);
-        this._giz = new QinTalkerGiz(this);
-        this._issued = new QinTalkerIssued(this);
-        this._param = new QinTalkerParam(this);
+        this._qinTalkerCmd = new QinTalkerCmd(this);
+        this._qinTalkerGiz = new QinTalkerGiz(this);
+        this._qinTalkerIssued = new QinTalkerIssued(this);
+        this._qinTalkerParam = new QinTalkerParam(this);
     }
 
     public get(address: string, headers?: any): Promise<AxiosResponse<never>> {
@@ -40,18 +40,18 @@ export class QinTalker {
     }
 
     public get cmd() {
-        return this._cmd;
+        return this._qinTalkerCmd;
     }
 
     public get giz() {
-        return this._giz;
+        return this._qinTalkerGiz;
     }
 
     public get issued() {
-        return this._issued;
+        return this._qinTalkerIssued;
     }
 
     public get param() {
-        return this._param;
+        return this._qinTalkerParam;
     }
 }
