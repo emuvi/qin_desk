@@ -1,6 +1,5 @@
 import { SHA1 } from "crypto-js";
-import { QinSoul, tr } from "qin_soul";
-import { QinNames } from "./qin-names";
+import { QinConstants, QinSoul } from "qin_soul";
 
 const sha1 = (text: string) => SHA1(text).toString();
 
@@ -10,7 +9,7 @@ const crypto = {
 
 export const QinOurs = {
     soul: { ...QinSoul },
-    names: QinNames,
+    consts: QinConstants,
     crypto,
-    tr,
+    tr: QinSoul.head.tr,
 };

@@ -14,8 +14,8 @@ export class QinFramePopup {
     private _onShow: Array<Function> = null;
     private _onClose: Array<Function> = null;
 
-    public constructor(jobber: QinFrame, divContent: HTMLDivElement) {
-        this._qinFrame = jobber;
+    public constructor(qinFrame: QinFrame, divContent: HTMLDivElement) {
+        this._qinFrame = qinFrame;
         this._divContent = divContent;
         this.initMain();
     }

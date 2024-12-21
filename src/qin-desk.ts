@@ -1,11 +1,10 @@
-import { QinAction, QinSoul, QinWaiter } from "qin_soul";
-import { QinNames } from "./qin-names";
+import { QinAction, QinConstants, QinSoul, QinWaiter } from "qin_soul";
 import { Qinpel } from "./qinpel";
 
 export class QinDesk {
-    private divMain = document.createElement("div");
-    private divApps: HTMLDivElement = null;
-    private divCfgs: HTMLDivElement = null;
+    private _divMain = document.createElement("div");
+    private _divApps: HTMLDivElement = null;
+    private _divCfgs: HTMLDivElement = null;
 
     private qinpel: Qinpel;
     private options: QinDeskSet;
@@ -23,13 +22,13 @@ export class QinDesk {
     }
 
     private initMain() {
-        styles.applyOnDivMain(this.divMain);
+        styles.applyOnDivMain(this._divMain);
     }
 
     public initApps() {
-        this.divApps = document.createElement("div");
-        this.divMain.appendChild(this.divApps);
-        styles.applyOnDivLine(this.divApps);
+        this._divApps = document.createElement("div");
+        this._divMain.appendChild(this._divApps);
+        styles.applyOnDivLine(this._divApps);
         this.qinpel.talk
             .get("/list/app")
             .then((res) => {
@@ -61,10 +60,10 @@ export class QinDesk {
                     const title = manifest.title;
                     const icon = "/app/" + name + "/favicon.ico";
                     this.addMenu(
-                        this.divApps,
+                        this._divApps,
                         this.newMenu(title, icon, (ev) => {
                             if (ev.isMain) {
-                                this.qinpel.qinWindow.newJobber(title, name);
+                                this.qinpel.qinWindow.newFrame(title, name);
                             }
                         })
                     );
@@ -76,9 +75,9 @@ export class QinDesk {
     }
 
     private initCfgs() {
-        this.divCfgs = document.createElement("div");
-        this.divMain.appendChild(this.divCfgs);
-        styles.applyOnDivLine(this.divCfgs);
+        this._divCfgs = document.createElement("div");
+        this._divMain.appendChild(this._divCfgs);
+        styles.applyOnDivLine(this._divCfgs);
         if (shouldAdd(this.options.addsCfgs, { title: "QinBases" })) {
             this.qinpel.talk.get("/list/base").then((res) => {
                 let bases = this.qinpel.ours.soul.body.getTextLines(res.data);
@@ -91,13 +90,13 @@ export class QinDesk {
         if (!bases || bases.length === 0) {
             return;
         }
-        let actual = this.qinpel.qinWindow.loadConfig(QinNames.QinBaseSelected);
+        let actual = this.qinpel.qinWindow.loadConfig(QinConstants.QIN_BASE_SELECTED);
         if (bases.indexOf(actual) == -1) {
             actual = null;
         }
         if (!actual) {
             actual = bases[0];
-            this.qinpel.qinWindow.saveConfig(QinNames.QinBaseSelected, actual);
+            this.qinpel.qinWindow.saveConfig(QinConstants.QIN_BASE_SELECTED, actual);
         }
         if (bases.length === 1) {
             return;
@@ -114,9 +113,9 @@ export class QinDesk {
             });
         }
         this.addMenu(
-            this.divCfgs,
-            this.newCombo(QinNames.QinBases, items, (base) => {
-                this.qinpel.qinWindow.saveConfig(QinNames.QinBaseSelected, base);
+            this._divCfgs,
+            this.newCombo(QinConstants.QIN_BASES, items, (base) => {
+                this.qinpel.qinWindow.saveConfig(QinConstants.QIN_BASE_SELECTED, base);
             })
         );
     }
@@ -173,11 +172,11 @@ export class QinDesk {
     }
 
     public putInDocBody() {
-        document.body.appendChild(this.divMain);
+        document.body.appendChild(this._divMain);
     }
 
     public getMain(): HTMLDivElement {
-        return this.divMain;
+        return this._divMain;
     }
 }
 

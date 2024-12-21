@@ -1,24 +1,26 @@
-import { QinArms, QinHead, QinSkin } from "qin_soul";
+import { QinConstants, QinSoul } from "qin_soul";
 import { QinDesk, QinDeskSet } from "./qin-desk";
 import { QinFrame } from "./qin-frame";
 import { QinOurs } from "./qin-ours";
 import { QinTalker } from "./qin-talker";
 import { Qinpel } from "./qinpel";
 
+import { TranslationsPtBR } from "./dics/pt-BR";
+
 export class QinWindow {
     private _divBody = document.createElement("div");
     private _divMenu = document.createElement("div");
     private _imgMenu = document.createElement("img");
-    private _jobbers: QinFrame[] = [];
+    private _frames: QinFrame[] = [];
     private _framesTopZ = 1;
 
-    private _serverLang = "";
-    private _userLang = "";
-    private _userToken = "";
+    private _serverLang = null;
+    private _userLang = null;
+    private _userToken = null;
 
     private _talker = new QinTalker(this);
 
-    private _menuJobbed: QinFrame = null;
+    private _menuFrame: QinFrame = null;
 
     public constructor() {
         this.initBody();
@@ -57,15 +59,15 @@ export class QinWindow {
         this._imgMenu.alt = "Menu";
         this._divMenu.appendChild(this._imgMenu);
         this._divBody.appendChild(this._divMenu);
-        QinArms.addAction(this._divMenu, (event) => {
+        QinSoul.arms.addAction(this._divMenu, (event) => {
             if (event.isMain) {
                 if (event.hasShift) {
                     document.body.requestFullscreen();
                 } else {
-                    if (this._menuJobbed == null || this._menuJobbed.wasClosed) {
-                        this._menuJobbed = this.newJobber("Qinpel", "/pub/qin_desk/desk.html");
+                    if (this._menuFrame == null || this._menuFrame.wasClosed) {
+                        this._menuFrame = this.newFrame("Qinpel", "/pub/qin_desk/desk.html");
                     } else {
-                        this._menuJobbed.show();
+                        this._menuFrame.show();
                     }
                 }
             }
@@ -74,32 +76,32 @@ export class QinWindow {
     }
 
     private initScroll() {
-        QinArms.addScroller(this._divBody, {
+        QinSoul.arms.addScroller(this._divBody, {
             onDouble: () => {
                 this._divBody.scrollTo(0, 0);
-                QinSkin.clearSelection();
+                QinSoul.skin.clearSelection();
             },
             onEnd: () => {
-                QinSkin.clearSelection();
+                QinSoul.skin.clearSelection();
             },
         });
     }
 
     private initServerLang() {
-        this._serverLang = "en";
-        this.talk
-            .get("/lang")
+        this.talk.utils
+            .getLang()
             .then((res) => {
-                this._serverLang = res.data;
+                this._serverLang = res;
+                this.loadTranslations();
             })
             .catch((err) => {
-                console.log("Could not get the server language because: " + err);
+                console.log("Could not get the server language. Error: " + err);
             });
     }
 
     public putInDocument() {
         document.body.appendChild(this._divBody);
-        QinSkin.disableSelection(document.body);
+        QinSoul.skin.disableSelection(document.body);
     }
 
     public addChild(child: HTMLElement) {
@@ -118,16 +120,15 @@ export class QinWindow {
         return new QinDesk(qinpel, options);
     }
 
-    public newJobber(title: string, appNameOrAddress: string, options?: any): QinFrame {
+    public newFrame(title: string, appNameOrAddress: string, options?: any): QinFrame {
         let result = new QinFrame(this, title, appNameOrAddress, options);
         result.install();
-        this._jobbers.push(result);
-        this.loadTranslations(result.appName);
+        this._frames.push(result);
         return result;
     }
 
-    public getJobber(fromTitle: string): QinFrame {
-        for (const jobber of this._jobbers) {
+    public getFrame(fromTitle: string): QinFrame {
+        for (const jobber of this._frames) {
             if (jobber.title === fromTitle) {
                 return jobber;
             }
@@ -135,8 +136,8 @@ export class QinWindow {
         return null;
     }
 
-    public getJobberFromID(fromID: string): QinFrame {
-        for (const jobber of this._jobbers) {
+    public getFrameFromID(fromID: string): QinFrame {
+        for (const jobber of this._frames) {
             if (jobber.getMainID() === fromID) {
                 return jobber;
             }
@@ -144,24 +145,24 @@ export class QinWindow {
         return null;
     }
 
-    public getJobberIndexFromID(fromID: string): number {
-        for (let i = 0; i < this._jobbers.length; i++) {
-            if (this._jobbers[i].getMainID() === fromID) {
+    public getFrameIndexFromID(fromID: string): number {
+        for (let i = 0; i < this._frames.length; i++) {
+            if (this._frames[i].getMainID() === fromID) {
                 return i;
             }
         }
         return -1;
     }
 
-    public delJobber(jobber: QinFrame) {
-        const index = this._jobbers.indexOf(jobber);
+    public delFrame(frame: QinFrame) {
+        const index = this._frames.indexOf(frame);
         if (index > -1) {
-            this._jobbers.splice(index, 1);
+            this._frames.splice(index, 1);
         }
     }
 
-    public hasJobber(jobber: QinFrame) {
-        const index = this._jobbers.indexOf(jobber);
+    public hasFrame(frame: QinFrame) {
+        const index = this._frames.indexOf(frame);
         return index > -1;
     }
 
@@ -171,15 +172,15 @@ export class QinWindow {
                 this.closeMenuApps();
             }
             element.style.zIndex = String(++this._framesTopZ);
-            if (!QinSkin.isElementVisibleInScroll(element)) {
+            if (!QinSoul.skin.isElementVisibleInScroll(element)) {
                 element.parentElement.scrollTo(element.offsetLeft, element.offsetTop);
             }
             if (element.id.indexOf("QinpelFrameID") === 0) {
-                const index = this.getJobberIndexFromID(element.id);
+                const index = this.getFrameIndexFromID(element.id);
                 if (index > 0) {
-                    const jobber = this._jobbers[index];
-                    this._jobbers.splice(index, 1);
-                    this._jobbers.unshift(jobber);
+                    const jobber = this._frames[index];
+                    this._frames.splice(index, 1);
+                    this._frames.unshift(jobber);
                 }
             }
         }, 360);
@@ -248,13 +249,7 @@ export class QinWindow {
             headers = {};
         }
         headers["Qinpel-Token"] = this._userToken;
-        if (!headers["Accept-Language"]) {
-            if (this._userLang) {
-                headers["Accept-Language"] = this._userLang;
-            } else if (navigator.language) {
-                headers["Accept-Language"] = navigator.language;
-            }
-        }
+        headers["Accept-Language"] = this.getLang();
         let configs = {
             headers,
         };
@@ -281,51 +276,34 @@ export class QinWindow {
                 .then((res) => {
                     this._userLang = res.lang;
                     this._userToken = res.token;
-                    this.loadTranslations("qin_desk");
+                    this.loadTranslations();
                     resolve(this._userLang);
                 })
                 .catch((err) => reject(err));
         });
     }
 
-    private loadedTranslations: Map<string, Array<string>> = new Map<string, Array<string>>();
+    public getLang(): string {
+        if (this._userLang) {
+            return this._userLang;
+        } else if (this._serverLang) {
+            return this._serverLang;
+        } else {
+            return navigator.language;
+        }
+    }
 
-    public loadTranslations(ofApplication): Promise<void> {
-        return new Promise<void>((resolve, _) => {
-            let lang = this._userLang || this._serverLang;
-            if (!lang || lang == "en") {
-                resolve();
-                return;
-            }
-            let appsLoaded = this.loadedTranslations.get(lang);
-            if (appsLoaded && appsLoaded.indexOf(ofApplication) > -1) {
-                resolve();
-                return;
-            }
-            if (appsLoaded) {
-                appsLoaded.push(ofApplication);
-            } else {
-                appsLoaded = [ofApplication];
-                this.loadedTranslations.set(lang, appsLoaded);
-            }
-            let address = "/app/" + ofApplication + "/dics/" + lang + ".txt";
-            this._talker
-                .get(address)
-                .then((res) => {
-                    let dictionary = res.data;
-                    QinHead.translations(dictionary);
-                    resolve();
-                })
-                .catch((_) => {
-                    resolve();
-                });
-        });
+    public loadTranslations() {
+        const lang = this.getLang();
+        if (lang == QinConstants.LANG_PT_BR) {
+            QinSoul.head.loadDictionary(TranslationsPtBR);
+        }
     }
 
     public exit() {
         this._userLang = "";
         this._userToken = "";
-        QinHead.delCookie("Qinpel-Lang");
-        QinHead.delCookie("Qinpel-Token");
+        QinSoul.head.delCookie("Qinpel-Lang");
+        QinSoul.head.delCookie("Qinpel-Token");
     }
 }

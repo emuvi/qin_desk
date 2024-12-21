@@ -74,7 +74,7 @@ export class QinFrame {
         var result = title;
         var attempt = 1;
         while (true) {
-            if (this._qinWindow.getJobber(result) != null) {
+            if (this._qinWindow.getFrame(result) != null) {
                 result = title + " (" + ++attempt + ")";
             } else {
                 break;
@@ -588,7 +588,7 @@ export class QinFrame {
     public close() {
         this.saveFrameBounds();
         this._qinWindow.delChild(this._divFrame);
-        this._qinWindow.delJobber(this);
+        this._qinWindow.delFrame(this);
         this._wasClosed = true;
     }
 

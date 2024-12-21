@@ -21,6 +21,10 @@ qinpel.ours.soul.arms.addActionsMain([buttonEnter], (_) => {
             qinpel.qinFrame.navigate("./desk.html");
         })
         .catch((err) => {
-            qinpel.qinFrame.showAlert(qinpel.tr("Problem on enter: ") + err);
+            qinpel.qinFrame.showAlert(
+                qinpel.tr("Problem on enter:") +
+                    "\n" +
+                    qinpel.ours.soul.head.getErrorMessage(err, "{qin_desk}(ErrCode-000005)")
+            );
         });
 });
