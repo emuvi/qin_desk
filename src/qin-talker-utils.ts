@@ -101,7 +101,7 @@ export class QinTalkerUtils {
         });
     }
 
-    public utilsIssued(): QinTalkerUtilsIssued {
+    public get issued(): QinTalkerUtilsIssued {
         return this._qinTalkerUtilsIssued;
     }
 }
