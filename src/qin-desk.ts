@@ -38,9 +38,9 @@ export class QinDesk {
             })
             .catch((err) => {
                 if (err.response?.status === 403) {
-                    this.qinpel.qinWindow.exit();
+                    this.qinpel.window.exit();
                 }
-                this.qinpel.qinFrame.statusError(err, "{qin_desk}(ErrCode-000002)");
+                this.qinpel.frame.statusError(err, "{qin_desk}(ErrCode-000002)");
             });
     }
 
@@ -63,13 +63,13 @@ export class QinDesk {
                         this._divApps,
                         this.newMenu(title, icon, (ev) => {
                             if (ev.isMain) {
-                                this.qinpel.qinWindow.newFrame(title, name);
+                                this.qinpel.window.newFrame(title, name);
                             }
                         })
                     );
                 })
                 .catch((err) => {
-                    this.qinpel.qinFrame.statusError(err, "{qin_desk}(ErrCode-000001)");
+                    this.qinpel.frame.statusError(err, "{qin_desk}(ErrCode-000001)");
                 });
         }
     }
@@ -90,13 +90,13 @@ export class QinDesk {
         if (!bases || bases.length === 0) {
             return;
         }
-        let actual = this.qinpel.qinWindow.loadConfig(QinConstants.QIN_BASE_SELECTED);
+        let actual = this.qinpel.window.loadConfig(QinConstants.QIN_BASE_SELECTED);
         if (bases.indexOf(actual) == -1) {
             actual = null;
         }
         if (!actual) {
             actual = bases[0];
-            this.qinpel.qinWindow.saveConfig(QinConstants.QIN_BASE_SELECTED, actual);
+            this.qinpel.window.saveConfig(QinConstants.QIN_BASE_SELECTED, actual);
         }
         if (bases.length === 1) {
             return;
@@ -115,7 +115,7 @@ export class QinDesk {
         this.addMenu(
             this._divCfgs,
             this.newCombo(QinConstants.QIN_BASES, items, (base) => {
-                this.qinpel.qinWindow.saveConfig(QinConstants.QIN_BASE_SELECTED, base);
+                this.qinpel.window.saveConfig(QinConstants.QIN_BASE_SELECTED, base);
             })
         );
     }

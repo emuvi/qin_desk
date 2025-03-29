@@ -12,11 +12,11 @@ export class Qinpel {
         this._qinFrame = qinFrame;
     }
 
-    public get qinWindow(): QinWindow {
+    public get window(): QinWindow {
         return this._qinWindow;
     }
 
-    public get qinFrame(): QinFrame {
+    public get frame(): QinFrame {
         return this._qinFrame;
     }
 
