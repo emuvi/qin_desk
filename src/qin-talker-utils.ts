@@ -79,10 +79,10 @@ export class QinTalkerUtils {
         });
     }
 
-    public getParam(name: string, orDefault: string = ""): Promise<string> {
+    public getConfig(name: string, orDefault: string = ""): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
-                .get("/param/" + encodeURIComponent(name))
+                .get("/config/" + encodeURIComponent(name))
                 .then((res) => {
                     resolve(res.data ? res.data : orDefault);
                 })
