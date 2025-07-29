@@ -78,7 +78,7 @@ export class QinDesk {
         this._divCfgs = document.createElement("div");
         this._divMain.appendChild(this._divCfgs);
         styles.applyOnDivLine(this._divCfgs);
-        if (shouldAdd(this.options.addsCfgs, { title: "QinBases" })) {
+        if (shouldAdd(this.options.addsCfgs, { title: QinConstants.QIN_BASES })) {
             this.qinpel.talk.get("/list/base").then((res) => {
                 let bases = this.qinpel.ours.soul.body.getTextLines(res.data);
                 this.addQinBases(bases);
