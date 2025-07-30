@@ -13,8 +13,8 @@ export class QinTalkerGiz {
     public list(): Promise<string[]> {
         return new Promise<string[]>((resolve, reject) => {
             this._talker
-                ._get("/list/giz")
-                .then((res) => resolve(QinBody.getTextLines(res.data)))
+                ._get<string>("/list/giz")
+                .then((text) => resolve(QinBody.getTextLines(text)))
                 .catch((err) => reject(err));
         });
     }
@@ -22,8 +22,8 @@ export class QinTalkerGiz {
     public run(execution: QinExecute): Promise<IssuedToken> {
         return new Promise<string>((resolve, reject) => {
             this._talker
-                ._post("/giz/run", execution)
-                .then((res) => resolve(res.data))
+                ._post<IssuedToken>("/giz/run", execution)
+                .then((token) => resolve(token))
                 .catch((err) => reject(err));
         });
     }

@@ -16,8 +16,8 @@ export class QinTalkerUtilsIssued {
             const askIsDone = () => {
                 this._qinTalkerUtils
                     .askIssued(questionIsDone)
-                    .then((res) => {
-                        if (res.isDone) {
+                    .then((answer) => {
+                        if (answer.isDone) {
                             this._qinTalkerUtils
                                 .askIssued(question)
                                 .then((res) => resolve(res))
@@ -36,9 +36,9 @@ export class QinTalkerUtilsIssued {
         const ask = () => {
             this._qinTalkerUtils
                 .askIssued(question)
-                .then((res) => {
+                .then((answer) => {
                     if (process.onReceive) {
-                        process.onReceive(res);
+                        process.onReceive(answer);
                     }
                     if (!process.stop) {
                         setTimeout((_) => ask(), 700);

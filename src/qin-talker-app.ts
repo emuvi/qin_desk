@@ -13,8 +13,8 @@ export class QinTalkerApp {
     public list(): Promise<string[]> {
         return new Promise<string[]>((resolve, reject) => {
             this._talker
-                ._get("/list/app")
-                .then((res) => resolve(QinBody.getTextLines(res.data)))
+                ._get<string>("/list/app")
+                .then((text) => resolve(QinBody.getTextLines(text)))
                 .catch((err) => reject(err));
         });
     }

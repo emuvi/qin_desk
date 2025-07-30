@@ -13,62 +13,46 @@ export class QinTalkerUtils {
     public ping(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
-                ._get("/ping")
-                .then((res) => {
-                    resolve(res.data);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
+                ._get<string>("/ping")
+                .then((res) => resolve(res))
+                .catch((err) => reject(err));
         });
     }
 
     public getLang(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
-                ._get("/lang")
-                .then((res) => {
-                    resolve(res.data);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
+                ._get<string>("/lang")
+                .then((res) => resolve(res))
+                .catch((err) => reject(err));
         });
     }
 
     public tryEnter(tryAuth: TryAuth): Promise<Logged> {
         return new Promise<Logged>((resolve, reject) => {
             this._qinTalker
-                ._post("/enter", tryAuth)
-                .then((res) => {
-                    resolve(res.data);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
+                ._post<Logged>("/enter", tryAuth)
+                .then((res) => resolve(res))
+                .catch((err) => reject(err));
         });
     }
 
     public isLogged(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             this._qinTalker
-                ._get("/logged")
-                .then((res) => {
-                    resolve(res.data !== "<--NO_USER_LOGGED-->");
-                })
-                .catch((err) => {
-                    reject(err);
-                });
+                ._get<string>("/logged")
+                .then((res) => resolve(res !== "<--NO_USER_LOGGED-->"))
+                .catch((err) => reject(err));
         });
     }
 
     public getLogged(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
-                ._get("/logged")
+                ._get<string>("/logged")
                 .then((res) => {
-                    if (res.data !== "<--NO_USER_LOGGED-->") {
-                        resolve(res.data);
+                    if (res !== "<--NO_USER_LOGGED-->") {
+                        resolve(res);
                     } else {
                         reject(new Error("No user is logged."));
                     }
@@ -82,21 +66,17 @@ export class QinTalkerUtils {
     public getConfig(name: string, orDefault: string = ""): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
-                ._get("/config/" + encodeURIComponent(name))
-                .then((res) => {
-                    resolve(res.data ? res.data : orDefault);
-                })
-                .catch((err) => {
-                    reject(err);
-                });
+                ._get<string>("/config/" + encodeURIComponent(name))
+                .then((config) => resolve(config ? config : orDefault))
+                .catch((err) => reject(err));
         });
     }
 
     public askIssued(question: IssuedQuestion): Promise<IssuedAnswer> {
         return new Promise<IssuedAnswer>((resolve, reject) => {
             this._qinTalker
-                ._post("/issued", question)
-                .then((res) => resolve(res.data as IssuedAnswer))
+                ._post<IssuedAnswer>("/issued", question)
+                .then((answer) => resolve(answer))
                 .catch((err) => reject(err));
         });
     }

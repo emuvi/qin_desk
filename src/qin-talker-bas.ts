@@ -11,8 +11,8 @@ export class QinTalkerBas {
     public list(): Promise<string[]> {
         return new Promise<string[]>((resolve, reject) => {
             this._talker
-                ._get("/list/base")
-                .then((res) => resolve(QinBody.getTextLines(res.data)))
+                ._get<string>("/list/base")
+                .then((text) => resolve(QinBody.getTextLines(text)))
                 .catch((err) => reject(err));
         });
     }
