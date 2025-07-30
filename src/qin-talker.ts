@@ -4,6 +4,7 @@ import { QinTalkerBas } from "./qin-talker-bas";
 import { QinTalkerCmd } from "./qin-talker-cmd";
 import { QinTalkerGiz } from "./qin-talker-giz";
 import { QinTalkerUtils } from "./qin-talker-utils";
+import { QinTalkerWay } from "./qin-talker-way";
 import { QinWindow } from "./qin-window";
 
 export class QinTalker {
@@ -13,6 +14,7 @@ export class QinTalker {
     private readonly _qinTalkerCmd: QinTalkerCmd;
     private readonly _qinTalkerGiz: QinTalkerGiz;
     private readonly _qinTalkerUtils: QinTalkerUtils;
+    private readonly _qinTalkerWay: QinTalkerWay;
 
     public constructor(qinWindow: QinWindow) {
         this._qinWindow = qinWindow;
@@ -21,6 +23,7 @@ export class QinTalker {
         this._qinTalkerCmd = new QinTalkerCmd(this);
         this._qinTalkerGiz = new QinTalkerGiz(this);
         this._qinTalkerUtils = new QinTalkerUtils(this);
+        this._qinTalkerWay = new QinTalkerWay(this);
     }
 
     public get app() {
@@ -41,6 +44,10 @@ export class QinTalker {
 
     public get utils() {
         return this._qinTalkerUtils;
+    }
+
+    public get way() {
+        return this._qinTalkerWay;
     }
 
     public _get<T = any>(address: string, headers?: any): Promise<T> {
