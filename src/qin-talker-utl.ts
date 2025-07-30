@@ -1,13 +1,13 @@
 import { QinTalker } from "./qin-talker";
-import { QinTalkerUtilsIssued } from "./qin-talker-utils-issued";
+import { QinTalkerUtlAux } from "./qin-talker-utl-aux";
 
-export class QinTalkerUtils {
+export class QinTalkerUtl {
     private readonly _qinTalker: QinTalker;
-    private readonly _qinTalkerUtilsIssued: QinTalkerUtilsIssued;
+    private readonly _qinTalkerUtilsIssued: QinTalkerUtlAux;
 
     public constructor(qinTalker: QinTalker) {
         this._qinTalker = qinTalker;
-        this._qinTalkerUtilsIssued = new QinTalkerUtilsIssued(this);
+        this._qinTalkerUtilsIssued = new QinTalkerUtlAux(this);
     }
 
     public ping(): Promise<string> {
@@ -81,7 +81,7 @@ export class QinTalkerUtils {
         });
     }
 
-    public get issued(): QinTalkerUtilsIssued {
+    public get issued(): QinTalkerUtlAux {
         return this._qinTalkerUtilsIssued;
     }
 }

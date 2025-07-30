@@ -3,7 +3,8 @@ import { QinTalkerApp } from "./qin-talker-app";
 import { QinTalkerBas } from "./qin-talker-bas";
 import { QinTalkerCmd } from "./qin-talker-cmd";
 import { QinTalkerGiz } from "./qin-talker-giz";
-import { QinTalkerUtils } from "./qin-talker-utils";
+import { QinTalkerReg } from "./qin-talker-reg";
+import { QinTalkerUtl } from "./qin-talker-utl";
 import { QinTalkerWay } from "./qin-talker-way";
 import { QinWindow } from "./qin-window";
 
@@ -13,7 +14,8 @@ export class QinTalker {
     private readonly _qinTalkerBas: QinTalkerBas;
     private readonly _qinTalkerCmd: QinTalkerCmd;
     private readonly _qinTalkerGiz: QinTalkerGiz;
-    private readonly _qinTalkerUtils: QinTalkerUtils;
+    private readonly _qinTalkerReg: QinTalkerReg;
+    private readonly _qinTalkerUtl: QinTalkerUtl;
     private readonly _qinTalkerWay: QinTalkerWay;
 
     public constructor(qinWindow: QinWindow) {
@@ -22,7 +24,8 @@ export class QinTalker {
         this._qinTalkerBas = new QinTalkerBas(this);
         this._qinTalkerCmd = new QinTalkerCmd(this);
         this._qinTalkerGiz = new QinTalkerGiz(this);
-        this._qinTalkerUtils = new QinTalkerUtils(this);
+        this._qinTalkerReg = new QinTalkerReg(this);
+        this._qinTalkerUtl = new QinTalkerUtl(this);
         this._qinTalkerWay = new QinTalkerWay(this);
     }
 
@@ -42,8 +45,12 @@ export class QinTalker {
         return this._qinTalkerGiz;
     }
 
-    public get utils() {
-        return this._qinTalkerUtils;
+    public get reg() {
+        return this._qinTalkerReg;
+    }
+
+    public get utl() {
+        return this._qinTalkerUtl;
     }
 
     public get way() {

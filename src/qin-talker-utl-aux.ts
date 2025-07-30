@@ -1,9 +1,9 @@
-import { IssuedAnswer, IssuedQuestion, QinTalkerUtils } from "./qin-talker-utils";
+import { IssuedAnswer, IssuedQuestion, QinTalkerUtl } from "./qin-talker-utl";
 
-export class QinTalkerUtilsIssued {
-    private readonly _qinTalkerUtils: QinTalkerUtils;
+export class QinTalkerUtlAux {
+    private readonly _qinTalkerUtils: QinTalkerUtl;
 
-    public constructor(qinTalkerUtils: QinTalkerUtils) {
+    public constructor(qinTalkerUtils: QinTalkerUtl) {
         this._qinTalkerUtils = qinTalkerUtils;
     }
 

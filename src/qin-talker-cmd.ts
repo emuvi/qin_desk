@@ -1,6 +1,6 @@
 import { QinBody } from "qin_soul";
 import { QinTalker } from "./qin-talker";
-import { IssuedToken } from "./qin-talker-utils";
+import { IssuedToken } from "./qin-talker-utl";
 
 export class QinTalkerCmd {
     private readonly _talker: QinTalker;

@@ -88,7 +88,7 @@ export class QinWindow {
     }
 
     private initServerLang() {
-        this.talk.utils
+        this.talk.utl
             .getLang()
             .then((res) => {
                 this._serverLang = res;
@@ -233,7 +233,7 @@ export class QinWindow {
 
     public async needToEnter(): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
-            this.talk.utils
+            this.talk.utl
                 .isLogged()
                 .then((res) => {
                     resolve(!res);
@@ -271,7 +271,7 @@ export class QinWindow {
     public tryEnter(name: string, pass: string): Promise<string> {
         pass = QinOurs.crypto.sha1(pass);
         return new Promise((resolve, reject) => {
-            this.talk.utils
+            this.talk.utl
                 .tryEnter({ name, pass })
                 .then((res) => {
                     this._userLang = res.lang;
