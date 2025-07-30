@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { QinTalkerApp } from "./qin-talker-app";
 import { QinTalkerBas } from "./qin-talker-bas";
 import { QinTalkerCmd } from "./qin-talker-cmd";
@@ -43,12 +43,16 @@ export class QinTalker {
         return this._qinTalkerUtils;
     }
 
-    public _get(address: string, headers?: any): Promise<AxiosResponse<never>> {
+    public _get<T = any>(address: string, headers?: any): Promise<T> {
         let configs = this._qinWindow.getAxiosConfig(headers);
-        return axios.get(address, configs);
+        return new Promise<T>((resolve, reject) => {
+            axios.get<T>(address, configs)
+                .then(res => resolve(res.data))
+                .catch(err => reject(err));
+        });
     }
 
-    public _post(address: string, data: any, headers?: any): Promise<AxiosResponse<any>> {
+    public _post<T = any>(address: string, data: any, headers?: any): Promise<T> {
         let configs = this._qinWindow.getAxiosConfig(headers);
         if (!configs.headers["Content-Type"]) {
             if (typeof data === "string" || data instanceof String) {
@@ -59,6 +63,10 @@ export class QinTalker {
                 configs.headers["Content-Type"] = "application/json";
             }
         }
-        return axios.post(address, data, configs);
+        return new Promise<T>((resolve, reject) => {
+            axios.post<T>(address, data, configs)
+                .then(res => resolve(res.data))
+                .catch(err => reject(err));
+        });
     }
 }

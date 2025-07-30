@@ -22,8 +22,8 @@ export class QinTalkerApp {
     public manifest(name: string): Promise<QinManifest> {
         return new Promise<QinManifest>((resolve, reject) => {
             this._talker
-                ._get("/app/" + name + "/manifest.json")
-                .then((res) => resolve(res.data as QinManifest))
+                ._get<QinManifest>("/app/" + name + "/manifest.json")
+                .then((manifest) => resolve(manifest))
                 .catch((err) => reject(err));
         });
     }
