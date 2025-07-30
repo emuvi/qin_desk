@@ -27,4 +27,13 @@ export class QinTalkerApp {
                 .catch((err) => reject(err));
         });
     }
+
+    public get<T = any>(name: string, address: string): Promise<T> {
+        return new Promise<T>((resolve, reject) => {
+            this._talker
+                ._get<T>("/app/" + name + "/" + address)
+                .then((res) => resolve(res))
+                .catch((err) => reject(err));
+        });
+    }
 }
