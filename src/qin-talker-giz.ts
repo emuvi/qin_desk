@@ -1,6 +1,6 @@
 import { QinBody } from "qin_soul";
-import { QinExecute } from "./qin-execute";
 import { QinTalker } from "./qin-talker";
+import { Execute } from "./qin-talker-cmd";
 import { IssuedToken } from "./qin-talker-utils";
 
 export class QinTalkerGiz {
@@ -19,10 +19,10 @@ export class QinTalkerGiz {
         });
     }
 
-    public run(execution: QinExecute): Promise<IssuedToken> {
+    public run(execute: Execute): Promise<IssuedToken> {
         return new Promise<string>((resolve, reject) => {
             this._talker
-                ._post<IssuedToken>("/giz/run", execution)
+                ._post<IssuedToken>("/giz/run", execute)
                 .then((token) => resolve(token))
                 .catch((err) => reject(err));
         });
