@@ -13,7 +13,7 @@ export class QinTalkerUtils {
     public ping(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
-                .get("/ping")
+                ._get("/ping")
                 .then((res) => {
                     resolve(res.data);
                 })
@@ -26,7 +26,7 @@ export class QinTalkerUtils {
     public getLang(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
-                .get("/lang")
+                ._get("/lang")
                 .then((res) => {
                     resolve(res.data);
                 })
@@ -39,7 +39,7 @@ export class QinTalkerUtils {
     public tryEnter(tryAuth: TryAuth): Promise<Logged> {
         return new Promise<Logged>((resolve, reject) => {
             this._qinTalker
-                .post("/enter", tryAuth)
+                ._post("/enter", tryAuth)
                 .then((res) => {
                     resolve(res.data);
                 })
@@ -52,7 +52,7 @@ export class QinTalkerUtils {
     public isLogged(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             this._qinTalker
-                .get("/logged")
+                ._get("/logged")
                 .then((res) => {
                     resolve(res.data !== "<--NO_USER_LOGGED-->");
                 })
@@ -65,7 +65,7 @@ export class QinTalkerUtils {
     public getLogged(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
-                .get("/logged")
+                ._get("/logged")
                 .then((res) => {
                     if (res.data !== "<--NO_USER_LOGGED-->") {
                         resolve(res.data);
@@ -82,7 +82,7 @@ export class QinTalkerUtils {
     public getConfig(name: string, orDefault: string = ""): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
-                .get("/config/" + encodeURIComponent(name))
+                ._get("/config/" + encodeURIComponent(name))
                 .then((res) => {
                     resolve(res.data ? res.data : orDefault);
                 })
@@ -95,7 +95,7 @@ export class QinTalkerUtils {
     public askIssued(question: IssuedQuestion): Promise<IssuedAnswer> {
         return new Promise<IssuedAnswer>((resolve, reject) => {
             this._qinTalker
-                .post("/issued", question)
+                ._post("/issued", question)
                 .then((res) => resolve(res.data as IssuedAnswer))
                 .catch((err) => reject(err));
         });

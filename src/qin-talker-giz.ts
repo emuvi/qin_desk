@@ -13,7 +13,7 @@ export class QinTalkerGiz {
     public list(): Promise<string[]> {
         return new Promise<string[]>((resolve, reject) => {
             this._talker
-                .get("/list/giz")
+                ._get("/list/giz")
                 .then((res) => resolve(QinBody.getTextLines(res.data)))
                 .catch((err) => reject(err));
         });
@@ -22,7 +22,7 @@ export class QinTalkerGiz {
     public run(execution: QinExecute): Promise<IssuedToken> {
         return new Promise<string>((resolve, reject) => {
             this._talker
-                .post("/giz/run", execution)
+                ._post("/giz/run", execution)
                 .then((res) => resolve(res.data))
                 .catch((err) => reject(err));
         });

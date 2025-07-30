@@ -1,9 +1,7 @@
 import { QinBody } from "qin_soul";
-import { QinExecute } from "./qin-execute";
 import { QinTalker } from "./qin-talker";
-import { IssuedToken } from "./qin-talker-utils";
 
-export class QinTalkerCmd {
+export class QinTalkerBas {
     private readonly _talker: QinTalker;
 
     public constructor(talker: QinTalker) {
@@ -13,17 +11,8 @@ export class QinTalkerCmd {
     public list(): Promise<string[]> {
         return new Promise<string[]>((resolve, reject) => {
             this._talker
-                ._get("/list/cmd")
+                ._get("/list/base")
                 .then((res) => resolve(QinBody.getTextLines(res.data)))
-                .catch((err) => reject(err));
-        });
-    }
-
-    public run(execution: QinExecute): Promise<IssuedToken> {
-        return new Promise<string>((resolve, reject) => {
-            this._talker
-                ._post("/cmd/run", execution)
-                .then((res) => resolve(res.data))
                 .catch((err) => reject(err));
         });
     }

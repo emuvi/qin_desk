@@ -8,8 +8,8 @@ qinpel.window.needToEnter().then((need) => {
         (window.frameElement as HTMLIFrameElement).src = "./login.html";
     } else {
         new QinDesk(qinpel, {
-            addsApps: appsAuthorize,
-            addsCfgs: cfgsAuthorize,
+            shouldAddApp: appsAuthorize,
+            shouldAddCfg: cfgsAuthorize,
         }).putInDocBody();
     }
 });

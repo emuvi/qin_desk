@@ -13,10 +13,10 @@ export class QinDesk {
         this.qinpel = qinpel;
         this.options = options || {};
         this.initMain();
-        if (!(this.options?.showApps === false)) {
+        if (!(this.options?.shouldShowApps === false)) {
             this.initApps();
         }
-        if (!(this.options?.showCfgs === false)) {
+        if (!(this.options?.shouldShowCfgs === false)) {
             this.initCfgs();
         }
     }
@@ -29,10 +29,10 @@ export class QinDesk {
         this._divApps = document.createElement("div");
         this._divMain.appendChild(this._divApps);
         styles.applyOnDivLine(this._divApps);
-        this.qinpel.talk
-            .get("/list/app")
-            .then((res) => {
-                for (let name of this.listApps(res.data)) {
+        this.qinpel.talk.app
+            .list()
+            .then((names) => {
+                for (let name of names) {
                     this.tryAddApp(name);
                 }
             })
@@ -44,24 +44,19 @@ export class QinDesk {
             });
     }
 
-    private listApps(response: string) {
-        return QinSoul.body.getTextLines(response);
-    }
-
     private tryAddApp(name: string) {
         if (name && name !== "qin_desk") {
-            this.qinpel.talk
-                .get("/app/" + name + "/manifest.json")
-                .then((res) => {
-                    const manifest = res.data as QinManifest;
-                    if (!shouldAdd(this.options.addsApps, manifest)) {
+            this.qinpel.talk.app
+                .manifest(name)
+                .then((manifest) => {
+                    if (!shouldAdd(this.options.shouldAddApp, manifest)) {
                         return;
                     }
                     const title = manifest.title;
-                    const icon = "/app/" + name + "/favicon.ico";
+                    const iconUrl = "/app/" + name + "/favicon.ico";
                     this.addMenu(
                         this._divApps,
-                        this.newMenu(title, icon, (ev) => {
+                        this.newMenu(title, iconUrl, (ev) => {
                             if (ev.isMain) {
                                 this.qinpel.window.newFrame(title, name);
                             }
@@ -78,11 +73,11 @@ export class QinDesk {
         this._divCfgs = document.createElement("div");
         this._divMain.appendChild(this._divCfgs);
         styles.applyOnDivLine(this._divCfgs);
-        if (shouldAdd(this.options.addsCfgs, { title: QinConstants.QIN_BASES })) {
-            this.qinpel.talk.get("/list/base").then((res) => {
-                let bases = this.qinpel.ours.soul.body.getTextLines(res.data);
-                this.addQinBases(bases);
-            });
+        if (shouldAdd(this.options.shouldAddCfg, { title: QinConstants.QIN_BASES })) {
+            this.qinpel.talk.bas
+            .list()
+            .then((bases) => this.addQinBases(bases))
+            .catch((err) => this.qinpel.frame.statusError(err, "{qin_desk}(ErrCode-000006)"));
         }
     }
 
@@ -120,12 +115,12 @@ export class QinDesk {
         );
     }
 
-    private newMenu(title: string, icon: string, action: QinAction): HTMLDivElement {
+    private newMenu(title: string, iconUrl: string, action: QinAction): HTMLDivElement {
         const menuBody = document.createElement("div");
         styles.applyOnMenuBody(menuBody);
         const menuIcon = document.createElement("img");
         styles.applyOnMenuIcon(menuIcon);
-        menuIcon.src = icon;
+        menuIcon.src = iconUrl;
         const menuText = document.createElement("span");
         styles.applyOnMenuText(menuText);
         menuText.innerText = title;
@@ -181,10 +176,10 @@ export class QinDesk {
 }
 
 export type QinDeskSet = {
-    showApps?: boolean;
-    addsApps?: QinAuthorize;
-    showCfgs?: boolean;
-    addsCfgs?: QinAuthorize;
+    shouldShowApps?: boolean;
+    shouldAddApp?: QinAuthorize;
+    shouldShowCfgs?: boolean;
+    shouldAddCfg?: QinAuthorize;
 };
 
 function shouldAdd(authorizer: QinAuthorize, manifest: QinManifest): boolean {
