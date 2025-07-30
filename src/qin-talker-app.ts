@@ -1,5 +1,4 @@
 import { QinBody } from "qin_soul";
-import { QinExecute } from "./qin-execute";
 import { QinTalker } from "./qin-talker";
 import { QinManifest } from "./qin-desk";
 
