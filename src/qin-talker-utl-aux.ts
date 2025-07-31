@@ -1,10 +1,10 @@
 import { IssuedAnswer, IssuedQuestion, QinTalkerUtl } from "./qin-talker-utl";
 
 export class QinTalkerUtlAux {
-    private readonly _qinTalkerUtils: QinTalkerUtl;
+    private readonly _qinTalkerUtl: QinTalkerUtl;
 
-    public constructor(qinTalkerUtils: QinTalkerUtl) {
-        this._qinTalkerUtils = qinTalkerUtils;
+    public constructor(qinTalkerUtl: QinTalkerUtl) {
+        this._qinTalkerUtl = qinTalkerUtl;
     }
 
     public askWhenDone(question: IssuedQuestion): Promise<IssuedAnswer> {
@@ -14,11 +14,11 @@ export class QinTalkerUtlAux {
                 askIsDone: true,
             } as IssuedQuestion;
             const askIsDone = () => {
-                this._qinTalkerUtils
+                this._qinTalkerUtl
                     .askIssued(questionIsDone)
                     .then((answer) => {
                         if (answer.isDone) {
-                            this._qinTalkerUtils
+                            this._qinTalkerUtl
                                 .askIssued(question)
                                 .then((res) => resolve(res))
                                 .catch((err) => reject(err));
@@ -34,7 +34,7 @@ export class QinTalkerUtlAux {
 
     public askConstantly(question: IssuedQuestion, process: AskConstantly) {
         const ask = () => {
-            this._qinTalkerUtils
+            this._qinTalkerUtl
                 .askIssued(question)
                 .then((answer) => {
                     if (process.onReceive) {
@@ -85,7 +85,7 @@ export class QinTalkerUtlAux {
                     askOutLinesSize: true,
                 };
             }
-            this._qinTalkerUtils
+            this._qinTalkerUtl
                 .askIssued(question)
                 .then((res) => {
                     let finished = false;
