@@ -3,11 +3,15 @@ import { QinTalkerUtlAux } from "./qin-talker-utl-aux";
 
 export class QinTalkerUtl {
     private readonly _qinTalker: QinTalker;
-    private readonly _qinTalkerUtilsIssued: QinTalkerUtlAux;
+    private readonly _qinTalkerUtlAux: QinTalkerUtlAux;
 
     public constructor(qinTalker: QinTalker) {
         this._qinTalker = qinTalker;
-        this._qinTalkerUtilsIssued = new QinTalkerUtlAux(this);
+        this._qinTalkerUtlAux = new QinTalkerUtlAux(this);
+    }
+
+    public get aux(): QinTalkerUtlAux {
+        return this._qinTalkerUtlAux;
     }
 
     public ping(): Promise<string> {
@@ -79,10 +83,6 @@ export class QinTalkerUtl {
                 .then((answer) => resolve(answer))
                 .catch((err) => reject(err));
         });
-    }
-
-    public get issued(): QinTalkerUtlAux {
-        return this._qinTalkerUtilsIssued;
     }
 }
 
