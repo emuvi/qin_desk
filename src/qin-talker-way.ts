@@ -1,4 +1,4 @@
-import { QinBody } from "qin_soul";
+import { QinBody, Setup } from "qin_soul";
 import { QinTalker } from "./qin-talker";
 
 export class QinTalkerWay {
@@ -27,26 +27,3 @@ export class QinTalkerWay {
     }
 }
 
-export type Setup = {
-    serverName?: string;
-    serverLang?: string;
-    serverHost?: string;
-    serverPort?: number;
-    serverFolder?: string;
-    servesPub?: boolean;
-    servesApp?: boolean;
-    servesDir?: boolean;
-    servesCmd?: boolean;
-    servesBas?: boolean;
-    servesReg?: boolean;
-    servesGiz?: boolean;
-
-    configMap?: Map<string, string>;
-    redirectMap?: Map<string, string>;
-
-    threadsMin?: number;
-    threadsMax?: number;
-    threadsIdleTimeout?: number;
-    cleanInterval?: number;
-    tokenValidity?: number;
-}

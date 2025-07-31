@@ -1,7 +1,5 @@
-import { QinBody } from "qin_soul";
+import { Execute, IssuedToken, QinBody } from "qin_soul";
 import { QinTalker } from "./qin-talker";
-import { Execute } from "./qin-talker-cmd";
-import { IssuedToken } from "./qin-talker-utl";
 
 export class QinTalkerGiz {
     private readonly _talker: QinTalker;

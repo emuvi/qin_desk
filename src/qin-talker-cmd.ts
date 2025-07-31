@@ -1,6 +1,5 @@
-import { QinBody } from "qin_soul";
+import { QinBody, IssuedToken, Execute } from "qin_soul";
 import { QinTalker } from "./qin-talker";
-import { IssuedToken } from "./qin-talker-utl";
 
 export class QinTalkerCmd {
     private readonly _talker: QinTalker;
@@ -26,20 +25,4 @@ export class QinTalkerCmd {
                 .catch((err) => reject(err));
         });
     }
-}
-
-export type Execute = {
-    name: string;
-    args?: string[];
-    input?: string[];
-    joinErrs?: boolean;
-    logLevel?: LogLevel;
-};
-
-export enum LogLevel {
-    LEVEL_ERROR = 0,
-    LEVEL_WARN = 1,
-    LEVEL_INFO = 2,
-    LEVEL_DEBUG = 3,
-    LEVEL_TRACE = 4,
 }

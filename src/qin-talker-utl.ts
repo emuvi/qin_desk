@@ -1,3 +1,4 @@
+import { IssuedAnswer, IssuedQuestion, Logged, TryAuth } from "qin_soul";
 import { QinTalker } from "./qin-talker";
 import { QinTalkerUtlAux } from "./qin-talker-utl-aux";
 
@@ -85,48 +86,3 @@ export class QinTalkerUtl {
         });
     }
 }
-
-export type TryAuth = {
-    name: string;
-    pass: string;
-};
-
-export type Logged = {
-    token: string;
-    lang: string;
-};
-
-export type IssuedToken = string;
-
-export type IssuedQuestion = {
-    token: IssuedToken;
-    askCreatedAt?: boolean;
-    askOutLines?: boolean;
-    askOutLinesFrom?: number;
-    askOutLinesUntil?: number;
-    askOutLinesSize?: boolean;
-    askErrLines?: boolean;
-    askErrLinesFrom?: number;
-    askErrLinesUntil?: number;
-    askErrLinesSize?: boolean;
-    askResultCode?: boolean;
-    askIsDone?: boolean;
-    askHasOut?: boolean;
-    askHasErr?: boolean;
-    askFinishedAt?: boolean;
-};
-
-export type IssuedAnswer = {
-    createdAt?: number;
-    outLines?: string;
-    outLinesFrom?: string[];
-    outLinesSize?: number;
-    errLines?: string;
-    errLinesFrom?: string[];
-    errLinesSize?: number;
-    resultCode?: number;
-    isDone?: boolean;
-    hasOut?: boolean;
-    hasErr?: boolean;
-    finishedAt?: number;
-};

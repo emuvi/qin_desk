@@ -1,4 +1,4 @@
-import { AllowReg, Delete, Filter, FilterLikes, FilterSeems, FilterTies, Insert, Join, JoinTies, Linked, Nature, Order, Registry, Select, Strain, TableHead, ToDelete, ToGetID, ToInsert, ToSelect, ToUpdate, Typed, Update, Valued } from "./qin-talker-reg";
+import { AllowReg, Delete, Filter, FilterLikes, FilterSeems, FilterTies, Insert, Join, JoinTies, Linked, Nature, Order, Registry, Select, Strain, TableHead, ToDelete, ToGetID, ToInsert, ToSelect, ToUpdate, Typed, Update, Valued } from "qin_soul";
 
 export class QinTalkerRegAux {
 

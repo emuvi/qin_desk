@@ -1,4 +1,4 @@
-import { QinBody } from "qin_soul";
+import { PathList, PathRead, PathWrite, Transfer, Where } from "qin_soul";
 import { QinTalker } from "./qin-talker";
 
 export class QinTalkerDir {
@@ -106,42 +106,4 @@ export class QinTalkerDir {
                 .catch((err) => reject(err));
         });
     }
-}
-
-export type PathList = {
-    path: string;
-    list: Array<PathKindName>;
-}
-
-export type PathKindName = {
-    kind: PathKind;
-    name: string;
-}
-
-export enum PathKind {
-    FOLDER = "FOLDER",
-    FILE = "FILE"
-}
-
-export type Where = {
-    path: string;
-}
-
-export type Transfer = {
-    origin: string;
-    destiny: string;
-}
-
-export type PathRead = {
-    path: string;
-    base64: boolean;
-    rangeStart: number;
-    rangeLength: number;
-}
-
-export type PathWrite = {
-    path: string;
-    base64: boolean;
-    data: string;
-    rangeStart: number;
 }

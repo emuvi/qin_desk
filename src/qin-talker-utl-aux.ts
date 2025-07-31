@@ -1,4 +1,5 @@
-import { IssuedAnswer, IssuedQuestion, QinTalkerUtl } from "./qin-talker-utl";
+import { AskConstantly, AskStream, IssuedAnswer, IssuedQuestion, StreamKind } from "qin_soul";
+import { QinTalkerUtl } from "./qin-talker-utl";
 
 export class QinTalkerUtlAux {
     private readonly _qinTalkerUtl: QinTalkerUtl;
@@ -118,23 +119,4 @@ export class QinTalkerUtlAux {
         };
         ask();
     }
-}
-
-export type AskConstantly = {
-    stop?: boolean;
-    onReceive?: (received: IssuedAnswer) => void;
-    onError?: (err: any) => void;
-};
-
-export type AskStream = {
-    token: string;
-    chunks: number;
-    onReceive?: (line: string) => void;
-    onFinish?: (size: number) => void;
-    onError?: (err: any) => void;
-};
-
-export enum StreamKind {
-    OUT = "out",
-    ERR = "err",
 }
