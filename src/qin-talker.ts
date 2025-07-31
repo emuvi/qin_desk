@@ -2,6 +2,7 @@ import axios from "axios";
 import { QinTalkerApp } from "./qin-talker-app";
 import { QinTalkerBas } from "./qin-talker-bas";
 import { QinTalkerCmd } from "./qin-talker-cmd";
+import { QinTalkerDir } from "./qin-talker-dir";
 import { QinTalkerGiz } from "./qin-talker-giz";
 import { QinTalkerReg } from "./qin-talker-reg";
 import { QinTalkerUtl } from "./qin-talker-utl";
@@ -13,6 +14,7 @@ export class QinTalker {
     private readonly _qinTalkerApp: QinTalkerApp;
     private readonly _qinTalkerBas: QinTalkerBas;
     private readonly _qinTalkerCmd: QinTalkerCmd;
+    private readonly _qinTalkerDir: QinTalkerDir;
     private readonly _qinTalkerGiz: QinTalkerGiz;
     private readonly _qinTalkerReg: QinTalkerReg;
     private readonly _qinTalkerUtl: QinTalkerUtl;
@@ -23,6 +25,7 @@ export class QinTalker {
         this._qinTalkerApp = new QinTalkerApp(this);
         this._qinTalkerBas = new QinTalkerBas(this);
         this._qinTalkerCmd = new QinTalkerCmd(this);
+        this._qinTalkerDir = new QinTalkerDir(this);
         this._qinTalkerGiz = new QinTalkerGiz(this);
         this._qinTalkerReg = new QinTalkerReg(this);
         this._qinTalkerUtl = new QinTalkerUtl(this);
@@ -39,6 +42,10 @@ export class QinTalker {
 
     public get cmd() {
         return this._qinTalkerCmd;
+    }
+
+    public get dir() {
+        return this._qinTalkerDir;
     }
 
     public get giz() {
