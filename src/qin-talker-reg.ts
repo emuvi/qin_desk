@@ -1,11 +1,18 @@
 import { QinBody } from "qin_soul";
 import { QinTalker } from "./qin-talker";
+import { QinTalkerRegAux } from "./qin-talker-reg-aux";
 
 export class QinTalkerReg {
     private readonly _talker: QinTalker;
+    private readonly _qinTalkerRegAux: QinTalkerRegAux;
 
     public constructor(talker: QinTalker) {
         this._talker = talker;
+        this._qinTalkerRegAux = new QinTalkerRegAux();
+    }
+
+    public get aux(): QinTalkerRegAux {
+        return this._qinTalkerRegAux;
     }
 
     public can(registry: Registry): Promise<AllowReg> {
@@ -61,7 +68,7 @@ export type AllowReg = {
     select: Boolean;
     update: Boolean;
     delete: Boolean;
-    strain?: Strain;
+    strain: Strain;
 }
 
 export type Registry = {
@@ -70,9 +77,9 @@ export type Registry = {
 }
 
 export type Strain = {
-   restrict?: string;
-   modify?: string;
-   include?: string;
+   restrict: string;
+   modify: string;
+   include: string;
 }
 
 export type ToInsert = {
@@ -124,10 +131,10 @@ export type Delete = {
 }
 
 export type TableHead = {
-   catalog?: string;
-   schema?: string;
+   catalog: string;
+   schema: string;
    name: string;
-   alias?: string;
+   alias: string;
 }
 
 export type ToGetID = {
@@ -135,19 +142,14 @@ export type ToGetID = {
    filter: Valued;
 }
 
-export type Order = {
-   name: string;
-   desc?: boolean;
-}
-
 export type Join = {
    tableHead: TableHead;
-   alias?: String;
+   alias: String;
    filterList: Array<Filter>;
-   joinTie?: JoinTie;
+   ties: JoinTies;
 }
 
-export enum JoinTie {
+export enum JoinTies {
    INNER = "INNER",
    LEFT = "LEFT",
    RIGHT = "RIGHT",
@@ -156,16 +158,16 @@ export enum JoinTie {
 }
 
 export type Filter = {
-   seems?: FilterSeems;
-   likes?: FilterLikes;
-   valued?: Valued;
-   linked?: Linked;
-   joinTie?: FilterTies;
+   seems: FilterSeems;
+   likes: FilterLikes;
+   valued: Valued;
+   linked: Linked;
+   ties: FilterTies;
 }
 
 export enum FilterSeems {
-   SAME = "SAME",
-   OTHER = "OTHER"
+   IS = "IS",
+   NOT = "NOT"
 }
 
 export enum FilterLikes {
@@ -179,26 +181,31 @@ export enum FilterLikes {
    CONTAINS = "CONTAINS"
 }
 
-export type Linked = {
-   name: string;
-   with: string;
-}
-
 export enum FilterTies {
    AND = "AND",
    OR = "OR"
 }
 
+export type Linked = {
+   name: string;
+   upon: string;
+}
+
+export type Order = {
+   name: string;
+   desc: boolean;
+}
+
 export type Valued = {
    name: string;
-   type?: Nature;
+   type: Nature;
    data: any;
 }
 
 export type Typed = {
    name: string;
-   type?: Nature;
-   alias?: string;
+   type: Nature;
+   alias: string;
 }
 
 export enum Nature {
