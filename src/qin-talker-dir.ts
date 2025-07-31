@@ -8,10 +8,10 @@ export class QinTalkerDir {
         this._talker = talker;
     }
 
-    public dirList(where: Where): Promise<PathKindList> {
-        return new Promise<PathKindList>((resolve, reject) => {
+    public dirList(where: Where): Promise<PathList> {
+        return new Promise<PathList>((resolve, reject) => {
             this._talker
-                ._post<PathKindList>("/dir/list", where)
+                ._post<PathList>("/dir/list", where)
                 .then((res) => resolve(res))
                 .catch((err) => reject(err));
         });
@@ -108,9 +108,9 @@ export class QinTalkerDir {
     }
 }
 
-export enum PathKind {
-    FOLDER = "FOLDER",
-    FILE = "FILE"
+export type PathList = {
+    path: string;
+    list: Array<PathKindName>;
 }
 
 export type PathKindName = {
@@ -118,7 +118,10 @@ export type PathKindName = {
     name: string;
 }
 
-export type PathKindList = Array<PathKindName>;
+export enum PathKind {
+    FOLDER = "FOLDER",
+    FILE = "FILE"
+}
 
 export type Where = {
     path: string;
