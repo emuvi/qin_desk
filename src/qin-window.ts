@@ -127,10 +127,10 @@ export class QinWindow {
         return result;
     }
 
-    public getFrame(fromTitle: string): QinFrame {
-        for (const jobber of this._frames) {
-            if (jobber.title === fromTitle) {
-                return jobber;
+    public getFrame(withTitle: string): QinFrame {
+        for (const frame of this._frames) {
+            if (frame.title === withTitle) {
+                return frame;
             }
         }
         return null;
@@ -138,7 +138,7 @@ export class QinWindow {
 
     public getFrameFromID(fromID: string): QinFrame {
         for (const jobber of this._frames) {
-            if (jobber.getMainID() === fromID) {
+            if (jobber.getFrameID() === fromID) {
                 return jobber;
             }
         }
@@ -147,7 +147,7 @@ export class QinWindow {
 
     public getFrameIndexFromID(fromID: string): number {
         for (let i = 0; i < this._frames.length; i++) {
-            if (this._frames[i].getMainID() === fromID) {
+            if (this._frames[i].getFrameID() === fromID) {
                 return i;
             }
         }
@@ -168,9 +168,6 @@ export class QinWindow {
 
     public showElement(element: HTMLElement) {
         setTimeout(() => {
-            if (element.id != "QinpelMenuAppsID1") {
-                this.closeMenuApps();
-            }
             element.style.zIndex = String(++this._framesTopZ);
             if (!QinSoul.skin.isElementVisibleInScroll(element)) {
                 element.parentElement.scrollTo(element.offsetLeft, element.offsetTop);
@@ -189,34 +186,6 @@ export class QinWindow {
     public showMenu() {
         this._divBody.scrollTo(0, 0);
         this.showElement(this._divMenu);
-    }
-
-    public showMenuApps() {
-        // [ TODO ] - Show PopupMenu
-        let divMenu = document.createElement("div");
-        divMenu.style.backgroundColor = "#878787";
-        divMenu.style.border = "2px solid #6c6c6c";
-        divMenu.style.borderStyle = "outset";
-        divMenu.style.borderRadius = "4px";
-        divMenu.style.position = "absolute";
-        divMenu.style.display = "flex";
-        divMenu.style.flexDirection = "column";
-        divMenu.style.overflowX = "hidden";
-        divMenu.style.overflowY = "auto";
-        let divMenuItem = document.createElement("div");
-        divMenuItem.style.borderBottom = "2px solid #b4b4b6";
-        divMenuItem.style.backgroundColor = "#eaeaea";
-        divMenuItem.style.color = "#242424";
-        divMenuItem.style.cursor = "pointer";
-        divMenuItem.style.padding = "4px";
-    }
-
-    private closeMenuApps() {
-        // [ TODO ] - Close PopupMenu
-        // if (qinpelRefWindow.refPopMenu != null) {
-        //     qinpelRefWindow.divBody.removeChild(qinpelRefWindow.refPopMenu.elements.divPopMenu);
-        //     qinpelRefWindow.refPopMenu = null;
-        // }
     }
 
     public getBodyWidth() {
