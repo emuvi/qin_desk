@@ -27,7 +27,7 @@ export class QinTalkerApp {
         });
     }
 
-    public get<T = any>(name: string, asset: string): Promise<T> {
+    public asset<T = any>(name: string, asset: string): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             this._talker
                 ._get<T>("/app/" + name + "/" + asset)
