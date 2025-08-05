@@ -77,16 +77,12 @@ export class QinFramePopup {
         iframeBody.appendChild(this._divMain);
         this._posX = 18;
         this._posY = 18;
-        this._maxWidth = this._qinFrame.getIFrame().clientWidth - (this._posY + 9);
-        this._maxHeight = this._qinFrame.getIFrame().clientHeight - (this._posY + 9);
+        this._maxWidth = this._qinFrame.getIFrame().clientWidth - (this._posY + 18);
+        this._maxHeight = this._qinFrame.getIFrame().clientHeight - (this._posY + 18);
         this._divMain.style.left = this._posX + "px";
         this._divMain.style.top = this._posY + "px";
         this._divMain.style.maxWidth = this._maxWidth + "px";
         this._divMain.style.maxHeight = this._maxHeight + "px";
-        this._posX = this._qinFrame.getIFrame().clientWidth / 2 - this._divMain.clientWidth / 2;
-        this._posY = this._qinFrame.getIFrame().clientHeight / 2 - this._divMain.clientHeight / 2;
-        this._divMain.style.left = this._posX + "px";
-        this._divMain.style.top = this._posY + "px";
         this.didShow();
     }
 
