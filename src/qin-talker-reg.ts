@@ -1,4 +1,4 @@
-import { AllowReg, Registry, ToDelete, ToInsert, ToSelect, ToUpdate } from "qin_soul";
+import { AllowReg, Heads, Registry, Table, ToDelete, ToInsert, ToSelect, ToUpdate } from "qin_soul";
 import { QinTalker } from "./qin-talker";
 import { QinTalkerRegAux } from "./qin-talker-reg-aux";
 
@@ -13,6 +13,24 @@ export class QinTalkerReg {
 
     public get aux(): QinTalkerRegAux {
         return this._qinTalkerRegAux;
+    }
+
+    public top(base: string): Promise<Heads> {
+        return new Promise<Heads>((resolve, reject) => {
+            this._talker
+                ._post<Heads>("/reg/top", base)
+                .then((res) => resolve(res))
+                .catch((err) => reject(err));
+        });
+    }
+
+    public see(registry: Registry): Promise<Table> {
+        return new Promise<Table>((resolve, reject) => {
+            this._talker
+                ._post<Table>("/reg/see", registry)
+                .then((res) => resolve(res))
+                .catch((err) => reject(err));
+        });
     }
 
     public can(registry: Registry): Promise<AllowReg> {
