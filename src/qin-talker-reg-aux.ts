@@ -2,12 +2,16 @@ import { AllowReg, Delete, Filter, FilterLikes, FilterSeems, FilterTies, Insert,
 
 export class QinTalkerRegAux {
 
-    public newAllowReg(registry: Registry, all: boolean, insert: boolean, select: boolean, update: boolean, delety: boolean, strain: Strain): AllowReg {
-        return {registry, all, insert, select, update, delete: delety, strain};
+    public newTableHead(catalog: string, schema: string, name: string, alias: string): TableHead {
+        return {catalog, schema, name, alias};
     }
 
     public newRegistry(base: string, tableHead: TableHead): Registry {
         return {base, tableHead};
+    }
+
+    public newAllowReg(registry: Registry, all: boolean, insert: boolean, select: boolean, update: boolean, delety: boolean, strain: Strain): AllowReg {
+        return {registry, all, insert, select, update, delete: delety, strain};
     }
     
     public newStrain(restrict: string, modify: string, include: string): Strain {
@@ -44,10 +48,6 @@ export class QinTalkerRegAux {
 
     public newDelete(tableHead: TableHead, filterList: Array<Filter>): Delete {
         return {tableHead, filterList};
-    }
-
-    public newTableHead(catalog: string, schema: string, name: string, alias: string): TableHead {
-        return {catalog, schema, name, alias};
     }
     
     public newToGetID(name: string, filter: Valued): ToGetID {
