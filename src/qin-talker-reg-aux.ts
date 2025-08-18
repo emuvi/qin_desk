@@ -2,7 +2,7 @@ import { AllowReg, Delete, Filter, FilterLikes, FilterSeems, FilterTies, Insert,
 
 export class QinTalkerRegAux {
 
-    public newAllowReg(registry: Registry, all: Boolean, insert: Boolean, select: Boolean, update: Boolean, delety: Boolean, strain: Strain): AllowReg {
+    public newAllowReg(registry: Registry, all: boolean, insert: boolean, select: boolean, update: boolean, delety: boolean, strain: Strain): AllowReg {
         return {registry, all, insert, select, update, delete: delety, strain};
     }
 
@@ -54,7 +54,7 @@ export class QinTalkerRegAux {
         return {name, filter};
     }
 
-    public newJoin(tableHead: TableHead, alias: String, filterList: Array<Filter>, ties: JoinTies): Join {
+    public newJoin(tableHead: TableHead, alias: string, filterList: Array<Filter>, ties: JoinTies): Join {
         return {tableHead, alias, filterList, ties};
     }
 
