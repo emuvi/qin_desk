@@ -24,4 +24,5 @@ const cfgsAuthorize: QinAuthorize = function (manifest) {
 
 const cfgsTitles: Array<string> = [
     QinConstants.DEV_TOOLS,
-    QinConstants.QIN_BASES];
+    QinConstants.QIN_BASES
+];

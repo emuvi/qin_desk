@@ -126,15 +126,11 @@ export class QinDesk {
         menuText.innerText = title;
         menuBody.appendChild(menuIcon);
         menuBody.appendChild(menuText);
-        QinSoul.arms.addAction(menuBody, action);
+        QinSoul.arms.addActionMain(menuBody, action);
         return menuBody;
     }
 
-    private newCombo(
-        title: string,
-        items: ComboItem[],
-        action: QinWaiter<string>
-    ): HTMLDivElement {
+    private newCombo(title: string, items: ComboItem[], action: QinWaiter<string>): HTMLDivElement {
         const menuBody = document.createElement("div");
         styles.applyOnMenuBody(menuBody);
         const menuText = document.createElement("span");

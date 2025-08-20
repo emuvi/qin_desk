@@ -56,8 +56,8 @@ export class QinFrame {
     }
 
     private initFrameTitle(title: string): string {
-        var result = title;
-        var attempt = 1;
+        let result = title;
+        let attempt = 1;
         while (true) {
             if (this._qinWindow.getFrame(result) != null) {
                 result = title + " (" + ++attempt + ")";
@@ -212,11 +212,7 @@ export class QinFrame {
         styles.applyOnDivFoot(this._divFoot);
         this._footStatusType.src = "./assets/frame-status-info.png";
         styles.applyOnDivEdgeIcon(this._footStatusType);
-        QinSoul.arms.addAction(this._footStatusType, (ev) => {
-            if (ev.isMain) {
-                this.switchStatus();
-            }
-        });
+        QinSoul.arms.addActionMain(this._footStatusType, () => this.switchStatus());
         this._divFoot.appendChild(this._footStatusType);
         styles.applyOnStatusText(this._footStatusText);
         this._footStatusText.innerText = "StatusBar";
