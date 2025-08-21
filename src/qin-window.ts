@@ -238,7 +238,6 @@ export class QinWindow {
     }
 
     public tryEnter(name: string, pass: string): Promise<string> {
-        pass = QinOurs.crypto.sha1(pass);
         return new Promise((resolve, reject) => {
             this.talk.utl
                 .tryEnter({ name, pass })

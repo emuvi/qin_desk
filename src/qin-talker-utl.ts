@@ -1,6 +1,7 @@
 import { IssuedAnswer, IssuedQuestion, Logged, TryAuth } from "qin_soul";
 import { QinTalker } from "./qin-talker";
 import { QinTalkerUtlAux } from "./qin-talker-utl-aux";
+import { QinOurs } from "./qin-ours";
 
 export class QinTalkerUtl {
     private readonly _qinTalker: QinTalker;
@@ -34,6 +35,7 @@ export class QinTalkerUtl {
     }
 
     public tryEnter(tryAuth: TryAuth): Promise<Logged> {
+        tryAuth.pass = QinOurs.crypto.sha1(tryAuth.pass);
         return new Promise<Logged>((resolve, reject) => {
             this._qinTalker
                 ._post<Logged>("/enter", tryAuth)
@@ -62,9 +64,7 @@ export class QinTalkerUtl {
                         reject(new Error("No user is logged."));
                     }
                 })
-                .catch((err) => {
-                    reject(err);
-                });
+                .catch((err) => reject(err));
         });
     }
 
@@ -72,7 +72,7 @@ export class QinTalkerUtl {
         return new Promise<string>((resolve, reject) => {
             this._qinTalker
                 ._get<string>("/config/" + encodeURIComponent(name))
-                .then((config) => resolve(config ? config : orDefault))
+                .then((config) => resolve(config ?? orDefault))
                 .catch((err) => reject(err));
         });
     }
