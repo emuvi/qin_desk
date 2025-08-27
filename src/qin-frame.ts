@@ -226,21 +226,19 @@ export class QinFrame {
 
     private initDraggable() {
         QinSoul.arms.addMover([this._divTitle, this._footStatusText], this._divFrame, {
-            onDouble: () => this.maximize(),
             onEnd: () => {
                 this.show();
                 QinSoul.skin.clearSelection();
-            },
+            }
         });
-        QinSoul.arms.addResizer([this._footResize], this._divFrame, {
-            onDouble: () => this.maximize(),
+        QinArms.addResizer([this._footResize], this._divFrame, {
             onEnd: () => {
                 this._maximized = false;
                 this._lastWidth = parseInt(this._divFrame.style.width, 10);
                 this._lastHeight = parseInt(this._divFrame.style.height, 10);
                 this.show();
                 QinSoul.skin.clearSelection();
-            },
+            }
         });
     }
 

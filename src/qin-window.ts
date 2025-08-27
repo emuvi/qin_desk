@@ -1,7 +1,6 @@
-import { QinConstants, QinSoul } from "qin_soul";
+import { QinArms, QinConstants, QinSkin, QinSoul } from "qin_soul";
 import { QinDesk, QinDeskSet } from "./qin-desk";
 import { QinFrame } from "./qin-frame";
-import { QinOurs } from "./qin-ours";
 import { QinTalker } from "./qin-talker";
 import { Qinpel } from "./qinpel";
 
@@ -59,31 +58,20 @@ export class QinWindow {
         this._imgMenu.alt = "Menu";
         this._divMenu.appendChild(this._imgMenu);
         this._divBody.appendChild(this._divMenu);
-        QinSoul.arms.addAction(this._divMenu, (event) => {
-            if (event.isMain) {
-                if (event.hasShift) {
-                    document.body.requestFullscreen();
-                } else {
-                    if (this._menuFrame == null || this._menuFrame.wasClosed) {
-                        this._menuFrame = this.newFrame("Qinpel", "/pub/qin_desk/desk.html");
-                    } else {
-                        this._menuFrame.show();
-                    }
-                }
+        QinArms.addActionMain(this._divMenu, (ev) => {
+            if (ev.hasShift) {
+                document.body.requestFullscreen();
+            } else if (this._menuFrame == null || this._menuFrame.wasClosed) {
+                this._menuFrame = this.newFrame("Qinpel", "/pub/qin_desk/desk.html");
+            } else {
+                this._menuFrame.show();
             }
-            return false;
         });
     }
 
     private initScroll() {
-        QinSoul.arms.addScroller(this._divBody, {
-            onDouble: () => {
-                this._divBody.scrollTo(0, 0);
-                QinSoul.skin.clearSelection();
-            },
-            onEnd: () => {
-                QinSoul.skin.clearSelection();
-            },
+        QinArms.addScroller(this._divBody, {
+            onEnd: () => QinSkin.clearSelection()
         });
     }
 
