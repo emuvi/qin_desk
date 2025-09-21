@@ -58,18 +58,18 @@ export class QinTalkerUtlAux {
     }
 
     public readStreamOut(reader: AskStream) {
-        this.readStream(StreamKind.OUT, reader);
+        this.readStream(StreamKind.Out, reader);
     }
 
     public readStreamErr(reader: AskStream) {
-        this.readStream(StreamKind.ERR, reader);
+        this.readStream(StreamKind.Err, reader);
     }
 
     public readStream(kind: StreamKind, reader: AskStream) {
         let from = 0;
         const ask = () => {
             let question: IssuedQuestion = null;
-            if (kind === StreamKind.ERR) {
+            if (kind === StreamKind.Err) {
                 question = {
                     token: reader.token,
                     askIsDone: true,
@@ -77,7 +77,7 @@ export class QinTalkerUtlAux {
                     askErrLinesUntil: from + reader.chunks,
                     askErrLinesSize: true,
                 };
-            } else if (kind === StreamKind.OUT) {
+            } else if (kind === StreamKind.Out) {
                 question = {
                     token: reader.token,
                     askIsDone: true,
