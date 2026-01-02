@@ -88,8 +88,8 @@ export class QinFrame {
             height: 600,
         };
         let windowSizeStyle = QinSoul.skin.getWindowSizeStyle();
-        const frameStyleID = this.getFrameWindowStyleID(windowSizeStyle);
-        const frameBoundsSaved = this._qinWindow.loadConfig(frameStyleID);
+        const windowStyleConfigName = this.getFrameWindowStyleConfigName(windowSizeStyle);
+        const frameBoundsSaved = this._qinWindow.loadConfig(windowStyleConfigName);
         if (frameBoundsSaved) {
             let parts = frameBoundsSaved.split(",");
             result.posX = Number(parts[0]);
@@ -113,8 +113,8 @@ export class QinFrame {
         return result;
     }
 
-    private getFrameWindowStyleID(windowSizeStyle: QinGrandeur): string {
-        return "window " + windowSizeStyle + " size of: " + this._title;
+    private getFrameWindowStyleConfigName(windowSizeStyle: QinGrandeur): string {
+        return "On: [" + windowSizeStyle + "] Of: [" + this._title + "]";
     }
 
     private initDivHead() {
@@ -228,7 +228,9 @@ export class QinFrame {
         QinSoul.arms.addMover([this._divTitle, this._footStatusText], this._divFrame, {
             onEnd: () => {
                 this.show();
+                this.saveFrameBounds();
                 QinSoul.skin.clearSelection();
+
             }
         });
         QinArms.addResizer([this._footResize], this._divFrame, {
@@ -237,6 +239,7 @@ export class QinFrame {
                 this._lastWidth = parseInt(this._divFrame.style.width, 10);
                 this._lastHeight = parseInt(this._divFrame.style.height, 10);
                 this.show();
+                this.saveFrameBounds();
                 QinSoul.skin.clearSelection();
             }
         });
@@ -379,7 +382,7 @@ export class QinFrame {
 
     public saveFrameBounds() {
         let windowSizeStyle = QinSoul.skin.getWindowSizeStyle();
-        const frameStyleID = this.getFrameWindowStyleID(windowSizeStyle);
+        const windowStyleConfigName = this.getFrameWindowStyleConfigName(windowSizeStyle);
         const frameBounds =
             parseInt(this._divFrame.style.left, 10) +
             "," +
@@ -388,7 +391,7 @@ export class QinFrame {
             parseInt(this._divFrame.style.width, 10) +
             "," +
             parseInt(this._divFrame.style.height, 10);
-        this._qinWindow.saveConfig(frameStyleID, frameBounds);
+        this._qinWindow.saveConfig(windowStyleConfigName, frameBounds);
     }
 
     public show() {
