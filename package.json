@@ -1,7 +1,7 @@
 {
     "name": "qin_desk",
     "displayName": "QinDesk",
-    "description": "QinDesk is the manager of user applications for the Pointel platform. Is the frontend of the Qinpel, the Quick Interface for Power Intelligence.",
+    "description": "QinDesk is the manager of user applications for the Vidlus information platform. Is the frontend of the Qinpel, the Quick Interface to Power Intelligence.",
     "keywords": [],
     "repository": "https://github.com/emuvi/qin_desk",
     "author": "Éverton M. Vieira",
